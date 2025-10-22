@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Course = require('../models/course.model.js')
+const Course = require('../models/Course.model.js')
 
 // Lister tous les cours
 async function getCourse(req, res) {
