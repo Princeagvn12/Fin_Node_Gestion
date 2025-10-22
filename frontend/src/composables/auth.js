@@ -1,20 +1,20 @@
-require('dotenv').config()
-const express = require('express')
-const cors = require('cors')
-const morgan = require('morgan')
-const helmet = require('helmet')
-const app = express()
-const port = process.env.PORT
+import axios from "axios";
+import axiosClient  from "@/api/axios";
 
-// middleware globaux
-app.use(cors())
-app.use(express.json())
-app.use(morgan('dev'))
-app.use(helmet())
-
-// routes principales (api)
+export function useAuth (){
+    async function login(payload) {
+        const res = await  axiosClient.post("/auth/login", {... payload})
+        
+    }
+    async function register(payload) {
+        const res = await axiosClient.post('/auth/register', { ...payload })
 
 
-app.listen(port, () => {
-    console.log(`Server démaré sur le port ${port}🚀🚀`)
-})
+    }
+
+    return {
+        login,
+        register,
+        
+    }
+}

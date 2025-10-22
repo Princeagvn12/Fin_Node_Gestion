@@ -1,7 +1,19 @@
+<script setup>
+
+
+</script>
+
+
 <template>
-  <!-- DashboardTeacher placeholder -->
+
+<div>
+  Hellow DAA&4
+</div>
+
 </template>
 
-<script>
-export default {};
-</script>
+
+<style scoped>
+
+
+</style>

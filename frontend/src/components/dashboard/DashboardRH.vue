@@ -1,7 +1,19 @@
+<script setup>
+
+
+</script>
+
+
 <template>
-  <!-- DashboardRH placeholder -->
+
+<div>
+  Hellow DAA&2
+</div>
+
 </template>
 
-<script>
-export default {};
-</script>
+
+<style scoped>
+
+
+</style>
