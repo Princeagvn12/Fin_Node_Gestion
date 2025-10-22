@@ -5,16 +5,16 @@ const morgan = require('morgan')
 const helmet = require('helmet')
 const app = express()
 const port = process.env.PORT
- 
+
 // middleware globaux
 app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
 app.use(helmet())
- 
+
 // routes principales (api)
- 
- 
+
+
 app.listen(port, () => {
     console.log(`Server démaré sur le port ${port}🚀🚀`)
 })

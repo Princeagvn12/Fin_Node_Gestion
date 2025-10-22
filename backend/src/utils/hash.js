@@ -1,0 +1,3 @@
+// mailer placeholder
+
+module.exports = {};
