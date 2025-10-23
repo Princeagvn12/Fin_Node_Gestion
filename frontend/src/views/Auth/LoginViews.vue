@@ -10,12 +10,19 @@ const form = ref({
 
 <template>
   <div class="flex justify-between items-center h-full">
-    <div class="w-1/2">
+    <div class="w-1/2 pl-6">
       <img src="../../../public/auth-img1.png" alt="Connexion" />
     </div>
-    <div class="w-1/2 bg-[var(--color-background)]">
+    <div class="w-1/2 bg-[var(--color-background)] px-40 h-screen pt-25">
       <div>
-        <h1 class="font-medium text-3xl py-8">Bienvenue de retour ! 👋</h1>
+        <div class="text-[var(--color-linkb)] text-4xl font-bold  text-center">
+
+          <i class="fa-solid fa-graduation-cap "></i> 
+          EduTrack RH
+        </div>
+      </div>
+      <div>
+        <h1 class="font-medium text-3xl py-8 text-[var(--color-linkbtn)]">Bienvenue sur EduTrack RH! 👋</h1>
         <p>Veuillez vous connecter à votre compte et commencer l'aventure</p>
         <div>
           <form  @submit.prevent="handeLogin">
