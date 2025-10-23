@@ -1,3 +1,5 @@
-// role guard middleware placeholder
+function roleMiddleware() {
+    
+}
 
-module.exports = function roleMiddleware(req, res, next) { next(); };
+module.exports = roleMiddleware

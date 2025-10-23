@@ -1,3 +1,4 @@
-// auth service placeholder
+const jwt = require('jsonwebtoken')
+
 
 module.exports = {};

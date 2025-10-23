@@ -1,3 +1,129 @@
-// auth controller placeholder
+const { User } = require('../models/User.model.js');
+const { hashValue } = require('../utils/hash.js');
+const { genrateRefreshToken, generateToken, decodeToken } = require('../utils/managementToken')
 
-module.exports = {};
+
+const register = async (req, res) => {
+    const { username, email, password } = req.body;
+
+    if(!username || ! email || !password)
+        return res.status(400).json({message: 'Le nom, email et le mot de passe est require'})
+    
+    //Verification de l'existance de l'utilisateur dans la base de donné
+    const exist = await User.findOne({email})
+    if(exist) return res.status(400).json({message:'Cet utilisateur existe déjà'})
+
+    //Hacher le mot de passe 
+    const hashPassword = await hashValue(password)
+
+    //Creer un nouvel utilisateur 
+    const newUser = {
+        username,
+        email,
+        password: hashPassword
+    }
+    await User.create(newUser)
+    res.status(201).json({
+        message: 'Utilisateur créé avec succès',
+        user: {
+            _id: newUser._id,
+            username: newUser.username,
+            email: newUser.email,
+            role:newUser.role
+        }
+    })
+}
+
+const options = {
+    httpOnly: true,
+    sameSite: 'strict',
+    secure: false,
+    maxAge: 3 * 60 * 1000
+}
+let refreshTKDB = [];
+const login = (req, res) => {
+    const { email, password } = req.body;
+
+    const user = User.findOne({email});
+
+    if(!user)
+        return res.status(401).json({message: 'Email ou mot de passe incorrect'});
+    if(user.password !== password )
+    return res.status(401).json({message: "Email ou mot de passe incorrect"})
+
+    //On genere le token et le stock dans les cookies 
+    const payload = {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+    };
+    const token = generateToken(payload)
+    const refreshToken = generateRefreshToken(payload)
+
+    res.cookie('token', token, options)
+    res.cookie('refreshToken', refreshToken, {
+        ...options,
+        maxAge: 15 * 60 * 1000,
+    })
+
+    refreshTKDB.push(refreshToken);
+    res.status(200).json({
+        message: "Connexion réussir ",
+        token,
+        refreshToken,
+    })
+}
+const logout = async (req, res) => {
+    const refreshToken = req.cookies["refresh"];
+    refreshTKDB = refreshTKDB.filter((token)=> token !== refreshToken);
+
+    res.clearCookie("token");
+    res.clearCookie("refreshToken");
+
+    res.status(200).json({message: "Decoonexion réussie !"})
+}
+ 
+const refresh = async (req, res) => {
+    const refreshToken = req.cookies["refreshToken"];
+    if(!refreshToken)
+        return res.status(401).json({message: "RefreshToken manquant"})
+    if(!refreshTKDB){
+        return res.status(401).json({ message: "RefreshToken invalid"})
+    }
+    
+    try {
+        const payload = decodeToken(
+            token,
+            process.env.REFRESH_TOKEN_KEY;
+        );
+        const newPayload = {
+            id: payload.id,
+            email: payload.email,
+            role: payload.role,
+        };
+
+        const newToken = generateToken(newPayload)
+        res.cookie("newToken", newToken, options);
+        res.status(200).json({
+            message: "Connexion refreshtoken !!",
+            newToken,
+            refreshToken,
+        });
+
+    } catch(error) {
+        switch (error.name) {
+            case "JsonWebTokenError":
+              res.status(401).json({ message: "Token invalid" });
+              break;
+            case "TokenExpireError":
+              res.status(401).json({ message: "Token Expire" });
+              break;
+            default:
+              res.status(500).json({ message: "une erreur innatendue " });
+              break;
+        }
+    }
+}
+
+
+module.exports = { register, login, logout, refresh};
