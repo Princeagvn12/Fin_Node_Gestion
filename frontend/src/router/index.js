@@ -12,12 +12,13 @@ const router = createRouter({
           name:'user_depart',
           path:'',
           component:() =>import('../views/UsersDepartViews.vue')
-        }
-      ]
-       
-    },
-
-    {
+        },
+        {
+          name:'courseslist',
+          path:'courseslist',
+          component:() =>import('../components/courses/CourseList.vue')
+        },
+           {
       name: 'users',
       path: '/users',
       component: () => import('../views/UsersViews.vue'),
@@ -42,7 +43,7 @@ const router = createRouter({
       ],
     },
 
-    {
+     {
       name: 'department',
       path: '/department',
       children: [
@@ -59,6 +60,10 @@ const router = createRouter({
       ],
 
       component: () => import('../views/DepartmentsViews.vue'),
+    },
+      
+      ]
+       
     },
   ],
 })

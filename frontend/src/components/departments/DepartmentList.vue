@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue';
+import {ref, onMounted,computed } from 'vue';
 // import { useDepartments } from '../../composables/department';
 // import { RouterLink } from 'vue-router';
 
@@ -7,6 +7,19 @@ import { onMounted } from 'vue';
 
 onMounted(() => {
   // fetchDepartments();
+});
+
+//filter les départements
+const department = ref([]);
+const query = ref('')
+
+
+const departments = computed(() => {
+  if (!query.value) return department.value;
+  return department.value.filter(c =>
+    (c.name && c.name.toLowerCase().includes(query.value.toLowerCase()))||  (c.formateur_principale && c.formateur_principale.toLowerCase().includes(query.value.toLowerCase()))
+
+  );
 });
 
 const handleDelete = async (deptId) => {
@@ -21,16 +34,21 @@ const handleDelete = async (deptId) => {
 </script>
 
 <template>
-  <div class="p-4">
+  <div class=" max-w-4xl mx-auto mt-20 shadow sm:rounded-lg p-10">
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold">Gestion des départements</h1>
       <RouterLink 
-        to="/department/departform"
+        to="admin/department/departform"
         class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center"
       >
         <span class="mr-2">+</span> Ajouter un département
       </RouterLink>
     </div>
+
+      <div class="mb-4 flex gap-2">
+          <input v-model="query" placeholder="Rechercher par name, formateur_principale" class="flex-1 border rounded px-3 py-2" />
+        </div>
+
 
     <div v-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
       {{ error }}
@@ -58,13 +76,13 @@ const handleDelete = async (deptId) => {
                 :to="'/departments/edit/' + dept._id"
                 class="text-indigo-600 hover:text-indigo-900 mr-4"
               >
-                Modifier
+               <i class="ri-edit-2-line"></i>
               </RouterLink>
               <button 
                 @click="handleDelete(dept._id)"
                 class="text-red-600 hover:text-red-900"
               >
-                Supprimer
+               <i class="ri-delete-bin-6-line"></i> 
               </button>
             </td>
           </tr>
