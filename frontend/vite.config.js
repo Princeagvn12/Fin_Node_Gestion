@@ -9,11 +9,15 @@ export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
-     tailwindcss(),
+    tailwindcss(),
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  css: {
+    transformer: 'postcss', // ⬅️ Ajout essentiel pour désactiver LightningCSS
+  },
 })
+
