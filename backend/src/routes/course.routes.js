@@ -1,17 +1,24 @@
-// const express = require('express');
-// const router = express.Router()
-// const { } = require('../controllers/course.controller.js')
-// const authMiddleware = require('../middlewares/auth.middleware.js')
-// const roleMiddleware = require('../middlewares/role.middleware.js')
+// course routes placeholder
+const express = require('express')
+const router = express.Router()
+const authMiddleware = require('../middlewares/auth.middleware.js')
+const roleMiddleware = require('../middlewares/role.middleware.js')
 
-// router.get('/', )
+const { createCourse, getCourses, assignTeacher, deleteCourse } = require( '../controllers/course.controller.js')
 
-// router.get('/:id', )
+router.post('/', createCourse)
+router.post('/',authMiddleware, roleMiddleware, ) // a ajouter, createCourse
 
-// router.post('/', authMiddleware, roleMiddleware, )
+router.get('/', getCourses)
+// router.get('/:id', ) // a ajouter , getCourseById
+router.post('/assign-teacher', assignTeacher)
+router.delete('/:id', deleteCourse)
+router.put('/',authMiddleware, roleMiddleware, ) // a ajouter , updateCourse
 
-// router.put('/', authMiddleware, roleMiddleware, )
+module.exports = router;
 
-// router.delete('/:id', authMiddleware, roleMiddleware, )
 
-// module.exports = router;
+
+
+
+
