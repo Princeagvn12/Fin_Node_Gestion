@@ -1,11 +1,25 @@
 <script setup>
 import { ref } from 'vue';
+import { useAuth } from '@/composables/auth';
+import router from '@/router';
+const { login } = useAuth();
 
 const form = ref({
   email: '',
   password: '',
 })
 
+const handeLogin = async () => {
+  try {
+    await login(form.value);
+    router.push('/dashboard');
+    console.log(form.value);
+  } catch (error) {
+    console.error("Erreur lors de la connexion ");
+    
+  }
+  
+}
 </script>
 
 <template>

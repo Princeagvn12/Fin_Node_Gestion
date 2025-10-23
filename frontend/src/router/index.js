@@ -3,7 +3,7 @@ import RegisterView from '@/views/Auth/RegisterView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import HomeViews from '@/views/HomeViews.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-
+import  {useAuth}  from '@/composables/auth'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -62,8 +62,7 @@ const router = createRouter({
         }
       ]
     }
-  ],
-  routes: [
+  ,
     {
       name: 'admin',
       path: '/admin',
@@ -118,10 +117,20 @@ const router = createRouter({
           component: () => import('../components/departments/DepartmentList.vue'),
         },
       ],
-
       component: () => import('../views/DepartmentsViews.vue'),
     },
   ],
+})
+
+
+router.beforeEach(  async (to, from, next) =>{
+  const auth = useAuth()
+  await auth.fetchUser()
+  if(to.meta.requiresAuth && !auth.isAuthenticated.value){
+    next({name: 'login'})
+  }else{
+    next()
+  }
 })
 
 export default router

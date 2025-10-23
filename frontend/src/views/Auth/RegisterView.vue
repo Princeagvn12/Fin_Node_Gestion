@@ -1,12 +1,34 @@
 <script setup>
 import { ref } from 'vue';
+import { useAuth } from '@/composables/auth';
+import router from '@/router';
+const { register } = useAuth();
+
 
 const form = ref({
   email: '',
-  username: '',
+  name: '',
   password: '',
-  password_confirmation: ''
 })
+
+const error = ref('');
+
+
+const handleRegister = async () => {
+  // if (form.value.password != form.value.password_confirmation) {
+  //   error.value= "Les mots de passe ne correspondent pas"
+  //   return;
+  // }
+  try {
+    await  register(form.value);
+    // console.log(form.value);
+    router.push('/login');
+    
+  } catch (error) {
+    console.error("Erreur lors de l'inscription ");
+    // error.value = error.message;
+  }
+}
 
 </script>
 
@@ -34,9 +56,9 @@ const form = ref({
                   <i class="fa-regular fa-user"></i>
                   <input
                     class="w-full border-none outline-none"
-                    v-model="form.username" type="text"
+                    v-model="form.name" type="text"
                     placeholder="Entrez votre nom d'utilisateur"
-                    autocomplete="username" required
+                    autocomplete="name" required
                   />
                 </div>
               </div>
@@ -66,7 +88,7 @@ const form = ref({
                     <i class="fa-solid fa-eye-slash cursor-pointer"></i>
                 </div>
               </div>
-              <div class="mt-5">
+              <!-- <div class="mt-5">
                 <h2 class="mb-2 font-semibold">Confirmer le mot de passe</h2>
                 <div class="rounded-lg p-2 flex border border-neutral-300 items-center gap-2.5">
                   <i class="fa-solid fa-lock"></i>
@@ -79,6 +101,7 @@ const form = ref({
                   <i class="fa-solid fa-eye-slash cursor-pointer"></i>
                 </div>
               </div>
+              <span>{{error}}</span> -->
               <div class="flex items-center mt-5">
                 <input type="checkbox" id="terms" required /><label for="terms" class="ml-2 font-semibold text-sm"
                   >J'accepte les <a href="#" class="text-[var(--color-linkbtn)]">conditions d'utilisation</a></label
@@ -90,6 +113,7 @@ const form = ref({
                 class="w-full font-semibold text-center py-3 text-[var(--color-background)] my-8 rounded-lg bg-[var(--color-linkbtn)] cursor-pointer"
               />
             </form>
+            <div>{{ error  }}</div>
             <div class="text-center mb-12">
               Vous avez déjà un compte?
               <router-link to="/login" class="text-[var(--color-linkbtn)] font-semibold" >Se connecter</router-link>
