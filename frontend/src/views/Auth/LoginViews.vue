@@ -9,12 +9,12 @@ const form = ref({
 </script>
 
 <template>
-  <div class="flex justify-between items-center h-full">
-    <div class="w-1/2 pl-6">
-      <img src="../../../public/auth-img1.png" alt="Connexion" />
+  <div class="flex min-h-screen items-center">
+    <div class="hidden lg:block lg:w-1/2 xl:w-3/5">
+      <img src="/auth-img1.png" alt="Connexion" class="w-120 object-cover" />
     </div>
-    <div class="w-1/2 bg-[var(--color-background)] px-40 h-screen pt-25">
-      <div>
+    <div class="w-full lg:w-1/2 xl:w-2/5 bg-[var(--color-background)] h-screen px-8 sm:px-16 md:px-24 lg:px-16 xl:px-24 py-12">
+      <div class="mb-8">
         <div class="text-[var(--color-linkb)] text-4xl font-bold  text-center">
 
           <i class="fa-solid fa-graduation-cap "></i> 
@@ -22,7 +22,7 @@ const form = ref({
         </div>
       </div>
       <div>
-        <h1 class="font-medium text-3xl py-8 text-[var(--color-linkbtn)]">Bienvenue sur EduTrack RH! 👋</h1>
+        <h1 class="font-medium text-3xl pb-2 text-[var(--color-linkbtn)]">Bienvenue sur EduTrack RH! 👋</h1>
         <p>Veuillez vous connecter à votre compte et commencer l'aventure</p>
         <div>
           <form  @submit.prevent="handeLogin">
@@ -32,8 +32,7 @@ const form = ref({
                 <i class="fa-regular fa-user"></i>
                 <input  v-model="form.email" type="email"
                   class="w-full border-none outline-none"
-                 placeholder="exemple@email.com" required />
-                />
+                 placeholder="exemple@email.com" required autocomplete="email" />
               </div>
             </div>
             <div class="mt-5">
@@ -43,7 +42,8 @@ const form = ref({
                 <i class="fa-solid fa-lock"></i>
                 <input
                   class="w-full border-none outline-none"
-                  type="text"
+                  v-model="form.password" type="password"
+                  autocomplete="current-password"
                   placeholder="Entrez le mot de passe actuel"
                 />
                 <i class="fa-solid fa-eye-slash cursor-pointer"></i>
@@ -62,7 +62,7 @@ const form = ref({
             <input
               type="submit"
               value="Se connecter"
-              class="w-full font-semibold text-center py-2 flex text-[var(--color-background)] my-8 rounded-3xl bg-[var(--color-linkbtn)]"
+              class="w-full font-semibold text-center py-3 text-[var(--color-background)] my-8 rounded-lg bg-[var(--color-linkbtn)] cursor-pointer"
             />
           </form>
           <div class="text-center mb-12">
@@ -71,10 +71,10 @@ const form = ref({
 
           </div>
         </div>
-        <div class="flex justify-between items-center mb-12">
-          <div class="w-50 h-0.5 bg-neutral-300"></div>
-          <div>ou</div>
-          <div class="w-50 h-0.5 bg-neutral-300"></div>
+        <div class="flex items-center mb-12">
+          <div class="flex-grow h-px bg-neutral-300"></div>
+          <div class="px-4">ou</div>
+          <div class="flex-grow h-px bg-neutral-300"></div>
         </div>
         <div class="flex justify-center items-center gap-5">
           <div

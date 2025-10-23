@@ -11,15 +11,21 @@ const form = ref({
 </script>
 
 <template>
-  <div class="w-full">
-    <div class="flex justify-around">
-      <div class="w-1/2">
-        <img src="../../../public/auth-img2.png" alt="Connexion" />
+  <div class="flex min-h-screen items-center">
+    <div class="hidden lg:block lg:w-1/2 xl:w-3/5">
+      <img src="/auth-img2.png" alt="Inscription" class="w-120 object-cover" />
+    </div>
+    <div class="w-full lg:w-1/2 xl:w-2/5 h-screen bg-[var(--color-background)] px-8 sm:px-16 md:px-24 lg:px-16 xl:px-24 py-12">
+      <div class="mb-8">
+        <div class="text-[var(--color-linkb)] text-4xl font-bold  text-center">
+          <i class="fa-solid fa-graduation-cap "></i> 
+          EduTrack RH
+        </div>
       </div>
-      <div class="w-1/2 bg-[var(--color-background)]">
-        <div>
-          <h1 class="font-medium text-3xl py-8">S'inscrire</h1>
-          <p>Veuillez vous inscrire à votre compte et commencer l'aventure</p>
+      <div>
+        <h1 class="font-medium text-3xl pb-2">L'aventure commence ici !</h1>
+        <p>Inscrivez-vous pour commencer à gérer votre parcours.</p>
+          <!-- <p>Veuillez vous inscrire à votre compte et commencer l'aventure</p> -->
           <div>
             <form  @submit.prevent="handleRegister">
               <div>
@@ -46,7 +52,7 @@ const form = ref({
                   />
                 </div>
               </div>
-              <div class="mt-1">
+              <div class="mt-5">
                 <h2 class="mb-2 font-semibold">Mot de passe</h2>
                 
                 <div class="rounded-lg p-2 flex border border-neutral-300 items-center gap-2.5">
@@ -59,6 +65,8 @@ const form = ref({
                     />
                     <i class="fa-solid fa-eye-slash cursor-pointer"></i>
                 </div>
+              </div>
+              <div class="mt-5">
                 <h2 class="mb-2 font-semibold">Confirmer le mot de passe</h2>
                 <div class="rounded-lg p-2 flex border border-neutral-300 items-center gap-2.5">
                   <i class="fa-solid fa-lock"></i>
@@ -71,23 +79,15 @@ const form = ref({
                   <i class="fa-solid fa-eye-slash cursor-pointer"></i>
                 </div>
               </div>
-              <div class="mt-5">
-                <p>Doit contenir au moins 8 caractères</p>
-              </div>
-              <div class="flex justify-between items-center mt-5">
-                <div class="flex items-center gap-0.2">
-                  <input type="checkbox" class="" /><label for="" class="ml-2 font-semibold text-sm"
-                    >Souviens-toi de moi</label
-                  >
-                </div>
-                <div class="text-[var(--color-linkbtn)] font-medium cursor-pointer">
-                  Mot de passe oublié?
-                </div>
+              <div class="flex items-center mt-5">
+                <input type="checkbox" id="terms" required /><label for="terms" class="ml-2 font-semibold text-sm"
+                  >J'accepte les <a href="#" class="text-[var(--color-linkbtn)]">conditions d'utilisation</a></label
+                >
               </div>
               <input
                 type="submit"
-                value="Se connecter"
-                class="w-full font-semibold text-center py-2 flex text-[var(--color-background)] my-8 rounded-3xl bg-[var(--color-linkbtn)]"
+                value="S'inscrire"
+                class="w-full font-semibold text-center py-3 text-[var(--color-background)] my-8 rounded-lg bg-[var(--color-linkbtn)] cursor-pointer"
               />
             </form>
             <div class="text-center mb-12">
@@ -95,10 +95,10 @@ const form = ref({
               <router-link to="/login" class="text-[var(--color-linkbtn)] font-semibold" >Se connecter</router-link>
             </div>
           </div>
-          <div class="flex justify-between items-center mb-10">
-            <div class="w-50 h-0.5 bg-neutral-300"></div>
-            <div>ou</div>
-            <div class="w-50 h-0.5 bg-neutral-300"></div>
+          <div class="flex items-center mb-12">
+            <div class="flex-grow h-px bg-neutral-300"></div>
+            <div class="px-4">ou</div>
+            <div class="flex-grow h-px bg-neutral-300"></div>
           </div>
           <div class="flex justify-center items-center gap-5">
             <div
@@ -117,10 +117,9 @@ const form = ref({
               <i class="fa-brands fa-google text"></i>
             </div>
           </div>
-        </div>
       </div>
     </div>
-  </div>
+    </div>
 </template>
 
 <style scoped></style>

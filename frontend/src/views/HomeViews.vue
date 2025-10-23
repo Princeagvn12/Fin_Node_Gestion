@@ -1,5 +1,6 @@
 <template>
   <!-- Home page placeholder -->
+
 </template>
 
 <script>
