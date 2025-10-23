@@ -1,7 +1,17 @@
+<script setup>
+
+</script>
+
+
 <template>
-  <!-- UsersPage placeholder -->
+
+
+<RouterView/>
+
 </template>
 
-<script>
-export default {};
-</script>
+
+<style scoped>
+
+
+</style>

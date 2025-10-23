@@ -1,11 +1,21 @@
-<script setup></script>
+<script setup>
+import UsersViews from './views/UsersViews.vue';
+import DepartmentsViews from './views/DepartmentsViews.vue';
+
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <router-view />
+  <!-- <div class="grid grid-cols-2 gap-6 p-4">
+    <div class="border rounded-lg p-4 bg-white shadow">
+      <UsersViews />
+    </div>
+
+    <div class="border rounded-lg p-4 bg-white shadow">
+      <DepartmentsViews />
+    </div>
+  </div> -->
 </template>
+
 
 <style scoped></style>
