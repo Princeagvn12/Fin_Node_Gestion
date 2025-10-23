@@ -2,16 +2,16 @@
   <section class="py-6 px-2 sm:px-6 max-w-2xl mx-auto">
     <div class="mb-6">
       <HourEntryForm
-        :courseId="courseId"
-        :editMode="editMode"
-        :initialHour="hourToEdit"
-        @success="handleSuccess"
+        :courses="courses"
+        :entryToEdit="hourToEdit"
+        @saved="handleSuccess"
       />
     </div>
 
     <div>
       <HourEntryList
-        :hours="hours"
+        :entries="hours"
+        :courses="courses"
         @edit="handleEdit"
         @delete="handleDelete"
       />
@@ -21,9 +21,9 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import HourEntryForm from "./HourEntryForm.vue";
-import HourEntryList from "./HourEntryList.vue";
-import { useHours } from "@/composables/hours.js";
+import HourEntryForm from "@/components/hours/HourEntryForm.vue";
+import HourEntryList from "@/components/hours/HourEntryList.vue";
+import { useHours } from "@/composables/hour.js";
 
 // À adapter : l’ID du cours à gérer (peut venir de route, prop, etc)
 const courseId = "remplace-par-l-id-du-cours-actuel";
@@ -31,8 +31,9 @@ const courseId = "remplace-par-l-id-du-cours-actuel";
 const hours = ref([]);
 const editMode = ref(false);
 const hourToEdit = ref(null);
+const courses = ref([]);
 
-const { fetchMyHours, deleteHour } = useHours();
+const { fetchMyHours, fetchCourses, deleteHour } = useHours();
 
 // Charger la liste des heures en début et après chaque action
 async function refresh() {
@@ -41,7 +42,11 @@ async function refresh() {
   hourToEdit.value = null;
 }
 
-onMounted(refresh);
+async function loadCourses() {
+  courses.value = await fetchCourses();
+}
+
+onMounted(async () => { await Promise.all([refresh(), loadCourses()]); });
 
 // Ajout ou modification réussie
 function handleSuccess() {

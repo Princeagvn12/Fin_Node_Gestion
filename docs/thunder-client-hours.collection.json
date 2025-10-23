@@ -1,0 +1,97 @@
+{
+  "version": "1.2.0",
+  "name": "Hours - Thunder Client Collection",
+  "activeEnvironment": "Local",
+  "environments": [
+    {
+      "name": "Local",
+      "variables": [
+        { "key": "baseUrl", "value": "http://localhost:3000" },
+        { "key": "token", "value": "" }
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "name": "Auth - Login",
+      "method": "POST",
+      "url": "{{baseUrl}}/auth/login",
+      "headers": [
+        { "key": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "type": "json",
+        "raw": {
+          "email": "teacher@example.com",
+          "password": "password123"
+        }
+      },
+      "description": "Login to get JWT token. Copy the returned token value to the environment variable {{token}} (manually) or use the test script in Thunder Client to set it.",
+      "tests": "/* After running this request, copy the token value from the response and set it in the environment variable 'token'. */"
+    },
+    {
+      "name": "Courses - Get list",
+      "method": "GET",
+      "url": "{{baseUrl}}/courses",
+      "headers": [
+        { "key": "Authorization", "value": "Bearer {{token}}" }
+      ],
+      "description": "Fetch courses for the teacher (used to populate the course select in the UI)."
+    },
+    {
+      "name": "Hours - Get my hours",
+      "method": "GET",
+      "url": "{{baseUrl}}/hours/me",
+      "headers": [
+        { "key": "Authorization", "value": "Bearer {{token}}" }
+      ],
+      "description": "Returns the authenticated teacher's hour entries. Supports optional query params: ?from=YYYY-MM-DD&to=YYYY-MM-DD&courseId=&page=&limit="
+    },
+    {
+      "name": "Hours - Create hour entry",
+      "method": "POST",
+      "url": "{{baseUrl}}/hours",
+      "headers": [
+        { "key": "Authorization", "value": "Bearer {{token}}" },
+        { "key": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "type": "json",
+        "raw": {
+          "course": "<courseId>",
+          "date": "2025-10-23",
+          "hours": 2.5,
+          "description": "Cours de test"
+        }
+      },
+      "description": "Create a new hour entry. Replace <courseId> with a real course _id from the Courses request."
+    },
+    {
+      "name": "Hours - Update hour entry",
+      "method": "PUT",
+      "url": "{{baseUrl}}/hours/{{hourId}}",
+      "headers": [
+        { "key": "Authorization", "value": "Bearer {{token}}" },
+        { "key": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "type": "json",
+        "raw": {
+          "date": "2025-10-23",
+          "hours": 1.75,
+          "description": "Modifier description"
+        }
+      },
+      "description": "Update an existing hour entry. Set the environment variable 'hourId' (or replace in the URL) with the entry _id to update."
+    },
+    {
+      "name": "Hours - Delete hour entry",
+      "method": "DELETE",
+      "url": "{{baseUrl}}/hours/{{hourId}}",
+      "headers": [
+        { "key": "Authorization", "value": "Bearer {{token}}" }
+      ],
+      "description": "Delete an hour entry. Set environment variable 'hourId' with the entry _id."
+    }
+  ]
+}

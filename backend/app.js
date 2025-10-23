@@ -6,7 +6,6 @@ const helmet = require('helmet')
 const app = express()
 const port = process.env.PORT
 
-// const coursesRoutes = require('./src/routes/course.routes')
 const hoursRoutes = require('./src/routes/hour.routes')
  
 // middleware globaux
@@ -16,9 +15,9 @@ app.use(morgan('dev'))
 app.use(helmet())
  
 // routes principales (api)
-// app.use('api/courses', coursesRoutes)
-app.use('api/hours', hoursRoutes)
- 
+app.use('/api/hours', hoursRoutes)
+
+
 app.listen(port, () => {
-    console.log(`Server démaré sur le port ${port} 🚀🚀`)
+        console.log(`Server démaré sur le port ${port} 🚀🚀`)
 })

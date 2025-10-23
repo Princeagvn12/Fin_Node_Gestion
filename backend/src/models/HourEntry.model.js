@@ -18,7 +18,14 @@ const hourEntrySchema = new mongoose.Schema({
   hours: { 
     type: Number, 
     required: true, 
-    min: 0 
+    min: 0.25,
+    validate: {
+      validator: function(v) {
+        // Ensure multiples of 0.25 (15 minutes)
+        return Math.round(v * 100) % 25 === 0;
+      },
+      message: props => `${props.value} n'est pas un multiple de 0.25`
+    }
   },
   description: { 
     type: String, 
