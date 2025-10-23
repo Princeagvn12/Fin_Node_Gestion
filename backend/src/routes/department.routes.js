@@ -1,14 +1,15 @@
 const express = require('express') 
-const { createDepartment, getDepartments, deleteDepartment} = require('../controllers/department.controller.js')
-const authMiddleware = require('../middlewares/auth.middleware.js')
-const roleMiddleware = require('../middlewares/role.middleware.js')
+const { createDepartment, getDepartments, deleteDepartment, updateDepartment } = require('../controllers/department.controller.js')
+const authMiddleware = require('../middlewares/auth.middleware')
+const roleMiddleware = require('../middlewares/role.middleware')
+const { ROLES } = require('../config/roles')
 
 const router = express.Router()
-router.post('/',authMiddleware,roleMiddleware, createDepartment, )
-router.get('/', getDepartments)
-// router.get('/:id', getDepartmentById)// a ajouter , getDepartmentById
-router.delete('/:id',authMiddleware,roleMiddleware, deleteDepartment)
-// router.put('/',authMiddleware, roleMiddleware, updateDepartment)// a ajouter , updateDepartment
+// create (admin only)
+router.post('/', authMiddleware, roleMiddleware([ROLES.ADMIN]), createDepartment)
+router.get('/', authMiddleware, getDepartments)
+router.put('/:id', authMiddleware, roleMiddleware([ROLES.ADMIN]), updateDepartment)
+router.delete('/:id', authMiddleware, roleMiddleware([ROLES.ADMIN]), deleteDepartment)
 
 module.exports = router;
 

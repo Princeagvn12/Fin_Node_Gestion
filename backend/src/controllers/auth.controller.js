@@ -18,20 +18,15 @@ const register = async (req, res) => {
     //Hacher le mot de passe 
     const hashPassword = await hashValue(password)
 
-    //Creer un nouvel utilisateur 
-    const newUser = {
-        name,
-        email,
-        password: hashPassword
-    }
-    await User.create(newUser)
+    // Creer un nouvel utilisateur
+    const created = await User.create({ name, email, password: hashPassword });
     res.status(201).json({
         message: 'Utilisateur créé avec succès',
         user: {
-            _id: newUser._id,
-            name: newUser.name,
-            email: newUser.email,
-            role:newUser.role
+            _id: created._id,
+            name: created.name,
+            email: created.email,
+            role: created.role
         }
     })
 }
@@ -78,54 +73,37 @@ const login = async (req, res) => {
     })
 }
 const logout = async (req, res) => {
-    const refreshToken = req.cookies["refresh"];
-    refreshTKDB = refreshTKDB.filter((token)=> token !== refreshToken);
-
-    res.clearCookie("token");
-    res.clearCookie("refreshToken");
-
-    res.status(200).json({message: "Decoonexion réussie !"})
+    const refreshToken = req.cookies['refreshToken'];
+    if (refreshToken) {
+        refreshTKDB = refreshTKDB.filter((t) => t !== refreshToken);
+    }
+    res.clearCookie('token');
+    res.clearCookie('refreshToken');
+    res.status(200).json({ message: 'Déconnexion réussie !' });
 }
  
 const refresh = async (req, res) => {
-    const refreshToken = req.cookies["refreshToken"];
-    if(!refreshToken)
-        return res.status(401).json({message: "RefreshToken manquant"})
-    if(!refreshTKDB){
-        return res.status(401).json({ message: "RefreshToken invalid"})
-    }
-    
+    const refreshToken = req.cookies['refreshToken'];
+    if (!refreshToken) return res.status(401).json({ message: 'RefreshToken manquant' });
+    if (!refreshTKDB.includes(refreshToken)) return res.status(401).json({ message: 'RefreshToken invalid' });
+
     try {
-        const payload = decodeToken(
-            token,
-            process.env.REFRESH_TOKEN_KEY
-        );
-        const newPayload = {
-            id: payload.id,
-            email: payload.email,
-            role: payload.role,
-        };
-
-        const newToken = generateToken(newPayload)
-        res.cookie("newToken", newToken, options);
-        res.status(200).json({
-            message: "Connexion refreshtoken !!",
-            newToken,
-            refreshToken
-        });
-
-    } catch(error) {
-        switch (error.name) {
-            case "JsonWebTokenError":
-              res.status(401).json({ message: "Token invalid" });
-              break;
-            case "TokenExpireError":
-              res.status(401).json({ message: "Token Expire" });
-              break;
-            default:
-              res.status(500).json({ message: "une erreur innatendue " });
-              break;
-        }
+        const payload = decodeToken(refreshToken, process.env.REFRESH_TOKEN_KEY);
+        const newPayload = { id: payload.id, email: payload.email, role: payload.role };
+        const newToken = generateToken(newPayload);
+        // rotate refresh token
+        const newRefresh = genrateRefreshToken(newPayload);
+        // replace in memory DB
+        refreshTKDB = refreshTKDB.filter((t) => t !== refreshToken);
+        refreshTKDB.push(newRefresh);
+        // set cookies
+        res.cookie('token', newToken, options);
+        res.cookie('refreshToken', newRefresh, { ...options, maxAge: 15 * 60 * 1000 });
+        res.status(200).json({ message: 'Token rafraîchi', token: newToken, refreshToken: newRefresh });
+    } catch (error) {
+        if (error.name === 'JsonWebTokenError') return res.status(401).json({ message: 'Token invalid' });
+        if (error.name === 'TokenExpiredError' || error.name === 'TokenExpireError') return res.status(401).json({ message: 'Token expiré' });
+        return res.status(500).json({ message: "Une erreur inattendue" });
     }
 }
 

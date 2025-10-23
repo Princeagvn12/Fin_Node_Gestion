@@ -5,17 +5,17 @@ const morgan = require('morgan')
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser')
 const app = express()
-const mongoose = require('mongoose')
+
 
 const departmentRoutes = require('./src/routes/department.routes.js')
 const courseRoutes = require('./src/routes/course.routes.js')
+const userRoutes = require('./src/routes/user.routes.js')
+const hourRoutes = require('./src/routes/hour.routes.js')
+const authRoutes = require('./src/routes/auth.routes.js')
 
-
-const port = process.env.PORT
+const port = process.env.PORT || 5000
 
 const connectDataBase = require('./src/config/db.js')
-const authRoutes = require('./src/routes/auth.routes.js')
-const coursRoutes = require('./src/routes/course.routes.js')
 
 connectDataBase()
 
@@ -30,8 +30,8 @@ app.use(helmet())
 app.use('/api/auth', authRoutes)
 app.use('/api/departments', departmentRoutes)
 app.use('/api/courses', courseRoutes)
-// app.use('/api/hour',)
-// app.use('/api/user',)
+app.use('/api/hours', hourRoutes)
+app.use('/api/users', userRoutes)
 
 app.listen(port, () => {
   console.log(`Server démaré sur le port ${port}🚀🚀`)

@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema({
     role: {
       type: String,
       required: true,
-      enum: ["etudiant", "admin", "formateur", "formateur_principal"],
+      enum: ["etudiant", "admin", "formateur", "formateur_principal", "rh"],
       default: "etudiant",
       lowercase: true,
     },
@@ -36,7 +36,10 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Departement',
     },
-    isActive: Boolean,
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
 },{
     timestamps: true,
 })

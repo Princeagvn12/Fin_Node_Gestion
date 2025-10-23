@@ -1,11 +1,26 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useAuth } from "@/composables/auth";
 
 const form = ref({
-  email: '',
-  password: '',
-})
+  email: "",
+  password: "",
+});
 
+const router = useRouter();
+const { login } = useAuth();
+const error = ref(null);
+
+const handeLogin = async () => {
+  error.value = null;
+  try {
+    await login({ email: form.value.email, password: form.value.password });
+    router.push({ name: "dashboard" });
+  } catch (e) {
+    error.value = e.response?.data?.message || "Erreur de connexion";
+  }
+};
 </script>
 
 <template>
@@ -13,36 +28,49 @@ const form = ref({
     <div class="hidden lg:block lg:w-1/2 xl:w-3/5">
       <img src="/auth-img1.png" alt="Connexion" class="w-120 object-cover" />
     </div>
-    <div class="w-full lg:w-1/2 xl:w-2/5 bg-[var(--color-background)] h-screen px-8 sm:px-16 md:px-24 lg:px-16 xl:px-24 py-12">
+    <div
+      class="w-full lg:w-1/2 xl:w-2/5 bg-[var(--color-background)] h-screen px-8 sm:px-16 md:px-24 lg:px-16 xl:px-24 py-12"
+    >
       <div class="mb-8">
-        <div class="text-[var(--color-linkb)] text-4xl font-bold  text-center">
-
-          <i class="fa-solid fa-graduation-cap "></i> 
+        <div class="text-[var(--color-linkb)] text-4xl font-bold text-center">
+          <i class="fa-solid fa-graduation-cap"></i>
           EduTrack RH
         </div>
       </div>
       <div>
-        <h1 class="font-medium text-3xl pb-2 text-[var(--color-linkbtn)]">Bienvenue sur EduTrack RH! 👋</h1>
+        <h1 class="font-medium text-3xl pb-2 text-[var(--color-linkbtn)]">
+          Bienvenue sur EduTrack RH! 👋
+        </h1>
         <p>Veuillez vous connecter à votre compte et commencer l'aventure</p>
         <div>
-          <form  @submit.prevent="handeLogin">
+          <form @submit.prevent="handeLogin">
             <div>
               <h2 class="mb-2 mt-8 font-semibold">Adresse E-mail</h2>
-              <div class="p-2 border-neutral-300 rounded-[8px] flex border items-center gap-2.5">
+              <div
+                class="p-2 border-neutral-300 rounded-[8px] flex border items-center gap-2.5"
+              >
                 <i class="fa-regular fa-user"></i>
-                <input  v-model="form.email" type="email"
+                <input
+                  v-model="form.email"
+                  type="email"
                   class="w-full border-none outline-none"
-                 placeholder="exemple@email.com" required autocomplete="email" />
+                  placeholder="exemple@email.com"
+                  required
+                  autocomplete="email"
+                />
               </div>
             </div>
             <div class="mt-5">
-              <h2 class="mb-2 font-semibold">Mot de passe </h2>
+              <h2 class="mb-2 font-semibold">Mot de passe</h2>
 
-              <div class="rounded-lg p-2 flex border border-neutral-300 items-center gap-2.5">
+              <div
+                class="rounded-lg p-2 flex border border-neutral-300 items-center gap-2.5"
+              >
                 <i class="fa-solid fa-lock"></i>
                 <input
                   class="w-full border-none outline-none"
-                  v-model="form.password" type="password"
+                  v-model="form.password"
+                  type="password"
                   autocomplete="current-password"
                   placeholder="Entrez le mot de passe actuel"
                 />
@@ -51,24 +79,31 @@ const form = ref({
             </div>
             <div class="flex justify-between items-center mt-5">
               <div class="flex items-center gap-0.2">
-                <input type="checkbox" class="" /><label for="" class="ml-2 font-semibold text-sm"
+                <input type="checkbox" class="" /><label
+                  for=""
+                  class="ml-2 font-semibold text-sm"
                   >Souviens-toi de moi</label
                 >
               </div>
-              <div class="text-[var(--color-linkbtn)] font-medium cursor-pointer">
+              <router-link
+                to="/forgot-password"
+                class="text-[var(--color-linkbtn)] font-medium"
+              >
                 Mot de passe oublié?
-              </div>
+              </router-link>
             </div>
             <input
               type="submit"
               value="Se connecter"
               class="w-full font-semibold text-center py-3 text-[var(--color-background)] my-8 rounded-lg bg-[var(--color-linkbtn)] cursor-pointer"
             />
+            <div v-if="error" class="text-red-600">{{ error }}</div>
           </form>
           <div class="text-center mb-12">
             Nouveau sur notre plateforme ?
-            <router-link class="text-[var(--color-linkbtn)] font-semibold" to="/register">Créer un compte</router-link>
-
+            <router-link class="text-[var(--color-linkbtn)] font-semibold" to="/register"
+              >Créer un compte</router-link
+            >
           </div>
         </div>
         <div class="flex items-center mb-12">

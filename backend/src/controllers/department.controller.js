@@ -1,11 +1,13 @@
 // controllers/departmentController.js
 
 const Department = require('../models/Department.model');
+const User = require('../models/User.model');
 
 // ✅ Créer un département
 const createDepartment = async (req, res) => {
   try {
-    const dept = new Department(req.body);
+  const { name, description, mainTeacher } = req.body;
+  const dept = new Department({ name, description, mainTeacher });
     await dept.save();
     res.json({ success: true, data: dept });
   } catch (err) {
@@ -33,9 +35,21 @@ const deleteDepartment = async (req, res) => {
   }
 };
 
+const updateDepartment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description, mainTeacher } = req.body;
+    const dept = await Department.findByIdAndUpdate(id, { name, description, mainTeacher }, { new: true });
+    res.json({ success: true, data: dept });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
 // ✅ Exporter les fonctions (CommonJS)
 module.exports = {
   createDepartment,
   getDepartments,
   deleteDepartment,
+  updateDepartment,
 };

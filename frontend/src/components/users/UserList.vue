@@ -1,23 +1,28 @@
 <script setup>
-import { onMounted } from 'vue';
-// import { useUsers } from '../../composables/user';
-// import { RouterLink } from 'vue-router';
+import { ref, onMounted, computed } from 'vue'
+import { useUsers } from '../../composables/user'
 
-// const { users, loading, error, fetchUsers, removeUser } = useUsers();
+const { users, loading, error, fetchUsers, removeUser } = useUsers()
 
-onMounted(() => {
-  // fetchUsers();
-});
+const query = ref('')
+
+const filtered = computed(() => {
+  if (!query.value) return users.value
+  const q = query.value.toLowerCase()
+  return users.value.filter((u) => (u.email || '').toLowerCase().includes(q) || (u.lastName || '').toLowerCase().includes(q))
+})
+
+onMounted(() => fetchUsers())
 
 const handleDelete = async (userId) => {
-  // if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
-  //   try {
-  //     await removeUser(userId);
-  //   } catch (error) {
-  //     console.error('Erreur lors de la suppression:', error);
-  //   }
-  // }
-};
+  if (!confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) return
+  try {
+    await removeUser(userId)
+  } catch (err) {
+    console.error('Erreur lors de la suppression:', err)
+    alert(err?.response?.data?.message || err.message || 'Erreur lors de la suppression')
+  }
+}
 </script>
 
 <template>
@@ -28,7 +33,7 @@ const handleDelete = async (userId) => {
 
     <div class="flex gap-6 m-4">
       <div>
-        <input class="w-150 h-10 border border-gray-200 rounded-lg outline-none" type="search" name="recherche" id="recherche">
+        <input v-model="query" placeholder="Recherche par nom ou email" class="w-150 h-10 border border-gray-200 rounded-lg outline-none px-3" type="search" name="recherche" id="recherche">
       </div>
         <RouterLink 
         to="/users/useform"
@@ -59,7 +64,7 @@ const handleDelete = async (userId) => {
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-for="user in users" :key="user._id" class="hover:bg-gray-50">
+          <tr v-for="user in filtered" :key="user._id" class="hover:bg-gray-50">
             <td><input type="checkbox" name="" id=""></td>
             <td class="px-6 py-4 whitespace-nowrap"> {{ user.lastName }}</td>
             <td class="px-6 py-4 whitespace-nowrap">{{ user.email }}</td>

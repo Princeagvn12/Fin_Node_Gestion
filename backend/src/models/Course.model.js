@@ -22,11 +22,12 @@ const CourseSchema = new mongoose.Schema(
             required: true
         },
         teacher: {
-            type: mongoose.Schema.Types. ObjectId, // User (formateur)
-            ref: 'User',
-            required: true
+            type: mongoose.Schema.Types.ObjectId, // User (formateur)
+            ref: 'User'
         },
-        students: [mongoose.Schema.Types.ObjectId], // Liste d’étudiants
+        // students: list of User ObjectId
+        students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        // optional attendance summary is stored per HourEntry; keep schema small here
         
     },{
         timestamps: true,
