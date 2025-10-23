@@ -17,7 +17,7 @@ const CourseSchema = mongoose.Schema(
             trim: true
         },
         department:{
-            type: mongoose.Schema.Type.ObjectId, // Department
+            type: mongoose.Schema.Types.ObjectId, // Department
             ref: 'Departement',
             required: true
         },

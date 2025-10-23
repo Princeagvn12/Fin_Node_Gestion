@@ -1,16 +1,18 @@
-const { User } = require('../models/User.model.js');
-const { hashValue } = require('../utils/hash.js');
+const User = require('../models/User.model.js');
+const { hashValue, verifyHash } = require('../utils/hash.js');
 const { genrateRefreshToken, generateToken, decodeToken } = require('../utils/managementToken')
 
 
 const register = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { name, email, password } = req.body;
 
-    if(!username || ! email || !password)
+    if(!name || !email || !password)
         return res.status(400).json({message: 'Le nom, email et le mot de passe est require'})
     
     //Verification de l'existance de l'utilisateur dans la base de donné
-    const exist = await User.findOne({email})
+    const exist = await User.findOne( {email} )
+    console.log(exist);
+    
     if(exist) return res.status(400).json({message:'Cet utilisateur existe déjà'})
 
     //Hacher le mot de passe 
@@ -18,7 +20,7 @@ const register = async (req, res) => {
 
     //Creer un nouvel utilisateur 
     const newUser = {
-        username,
+        name,
         email,
         password: hashPassword
     }
@@ -27,7 +29,7 @@ const register = async (req, res) => {
         message: 'Utilisateur créé avec succès',
         user: {
             _id: newUser._id,
-            username: newUser.username,
+            name: newUser.name,
             email: newUser.email,
             role:newUser.role
         }
@@ -41,24 +43,26 @@ const options = {
     maxAge: 3 * 60 * 1000
 }
 let refreshTKDB = [];
-const login = (req, res) => {
+const login = async (req, res) => {
     const { email, password } = req.body;
 
-    const user = User.findOne({email});
+    const user = await User.findOne({email:email});
 
     if(!user)
-        return res.status(401).json({message: 'Email ou mot de passe incorrect'});
-    if(user.password !== password )
-    return res.status(401).json({message: "Email ou mot de passe incorrect"})
+        return res.status(401).json({message: 'Ede passe incorrect'});
 
+    const isPasswordValid = await verifyHash(user.password, password)
+    if(!isPasswordValid){
+        return res.status(400).json({msg: 'passe incorrect'})
+    }
     //On genere le token et le stock dans les cookies 
     const payload = {
-        id: user.id,
+        id: user._id,
         email: user.email,
         role: user.role,
     };
     const token = generateToken(payload)
-    const refreshToken = generateRefreshToken(payload)
+    const refreshToken = genrateRefreshToken(payload)
 
     res.cookie('token', token, options)
     res.cookie('refreshToken', refreshToken, {
@@ -94,7 +98,7 @@ const refresh = async (req, res) => {
     try {
         const payload = decodeToken(
             token,
-            process.env.REFRESH_TOKEN_KEY;
+            process.env.REFRESH_TOKEN_KEY
         );
         const newPayload = {
             id: payload.id,
@@ -107,7 +111,7 @@ const refresh = async (req, res) => {
         res.status(200).json({
             message: "Connexion refreshtoken !!",
             newToken,
-            refreshToken,
+            refreshToken
         });
 
     } catch(error) {

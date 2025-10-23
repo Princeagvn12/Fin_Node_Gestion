@@ -22,10 +22,10 @@ app.use(helmet())
  
 // routes principales (api)
 app.use('/api/auth', authRoutes)
-app.use('/api/cours', coursRoutes)
-app.use('/api/departement',)
-app.use('/api/hour',)
-app.use('/api/user',)
+// app.use('/api/cours', coursRoutes)
+// app.use('/api/departement',)
+// app.use('/api/hour',)
+// app.use('/api/user',)
  
 app.listen(port, () => {
     console.log(`Server démaré sur le port ${port}🚀🚀`)

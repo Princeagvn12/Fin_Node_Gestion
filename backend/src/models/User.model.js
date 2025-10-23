@@ -33,9 +33,8 @@ const UserSchema = new mongoose.Schema({
       lowercase: true,
     },
     department:{
-        type: mongoose.Schema.Type.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Departement',
-        required: true
     },
     isActive: Boolean,
 },{
