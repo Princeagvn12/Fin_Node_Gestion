@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const userRoutes = require('./src/routes/user.routes')
 const cors = require('cors')
 const morgan = require('morgan')
 const helmet = require('helmet')
@@ -13,6 +14,7 @@ app.use(morgan('dev'))
 app.use(helmet())
  
 // routes principales (api)
+app.use('/api', userRoutes);
  
  
 app.listen(port, () => {
