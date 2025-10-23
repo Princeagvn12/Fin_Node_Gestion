@@ -128,6 +128,9 @@ const refresh = async (req, res) => {
         }
     }
 }
+/** renvoie les infos de l’utilisateur si le token est valide : */
+const  guard = async (req, res) => {
+    res.status(200).json({ user: req.user });
+}
 
-
-module.exports = { register, login, logout, refresh};
+module.exports = { register, login, logout, refresh, guard};
