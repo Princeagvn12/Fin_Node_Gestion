@@ -59,6 +59,7 @@ const login = async (req, res) => {
     const payload = {
         id: user._id,
         email: user.email,
+        name : user.name,
         role: user.role,
     };
     const token = generateToken(payload)
@@ -89,8 +90,7 @@ const logout = async (req, res) => {
  
 const refresh = async (req, res) => {
     const refreshToken = req.cookies["refreshToken"];
-    if(!refreshToken)
-        return res.status(401).json({message: "RefreshToken manquant"})
+    if(!refreshToken) return res.status(401).json({message: "RefreshToken manquant"})
     if(!refreshTKDB){
         return res.status(401).json({ message: "RefreshToken invalid"})
     }
@@ -104,6 +104,7 @@ const refresh = async (req, res) => {
             id: payload.id,
             email: payload.email,
             role: payload.role,
+            name: payload.name
         };
 
         const newToken = generateToken(newPayload)
