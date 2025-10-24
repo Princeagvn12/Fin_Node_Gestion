@@ -5,9 +5,14 @@ import Sidebar from '../components/admin/SidebarADMIN.vue';
 
 
 <template>
-<div class="flex">
-    <Sidebar/>
-    <RouterView/>
+<div class="flex bg-blue-100">
+   <div>
+     <Sidebar/>
+    </div>
+
+     <div class="bg-white w-full">
+         <RouterView/>
+     </div>
 
 </div>
 </template>

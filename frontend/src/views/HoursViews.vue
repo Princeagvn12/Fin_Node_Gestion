@@ -1,3 +1,9 @@
+<script setup>
+
+
+</script>
+
+
 <template>
   <section class="py-6 px-2 sm:px-6 max-w-2xl mx-auto">
     <div class="mb-6">

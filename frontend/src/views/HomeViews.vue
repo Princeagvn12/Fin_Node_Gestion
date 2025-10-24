@@ -1,8 +1,16 @@
+<script setup>
+
+
+</script>
+
+
 <template>
   <!-- Home page placeholder -->
 
 </template>
 
-<script>
-export default {};
-</script>
+
+<style scoped>
+
+
+</style>

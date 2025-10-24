@@ -7,7 +7,7 @@
   <nav class="w-70 bg-white border-r border-gray-200 min-h-screen p-4">
     <ul class="space-y-2">
       <li>
-        <RouterLink to="/" class="flex items-center gap-3 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+        <RouterLink to="/admin" class="flex items-center gap-3 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900">
           <i class="ri-dashboard-fill text-xl text-gray-600"></i>
           <span class="text-sm font-medium">Tableau de bord</span>
         </RouterLink>
@@ -28,9 +28,16 @@
       </li>
 
       <!-- Example of nested/section header -->
-      <li class="mt-4 px-3 text-xs text-gray-400 uppercase">Autres</li>
+      
       <li>
-        <RouterLink to="" class="flex items-center gap-3 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+        <RouterLink to="/admin/courseslist" class="flex items-center gap-3 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+          <i class="ri-book-open-line text-xl text-gray-600"></i>
+          <span class="text-sm font-medium">Gestion des cours</span>
+        </RouterLink>
+      </li>
+
+      <li>
+        <RouterLink to="/" class="flex items-center gap-3 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900">
           <i class="ri-settings-line text-xl text-gray-600"></i>
           <span class="text-sm font-medium">Paramètres</span>
         </RouterLink>

@@ -1,7 +1,17 @@
+<script setup>
+
+
+</script>
+
+
 <template>
-  <!-- Footer placeholder -->
+
+
+
 </template>
 
-<script>
-export default {};
-</script>
+
+<style scoped>
+
+
+</style>

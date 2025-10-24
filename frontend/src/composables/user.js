@@ -1,3 +1,48 @@
+import { ref } from 'vue';
+let axios;
+try { axios = require('axios'); } catch (e) { axios = null; }
+
+// Mock data fallback so components work even without backend
+const MOCK_USERS = [
+	{ _id: '1', firstName: 'Jean', lastName: 'Dupont', email: 'jean@example.com', role: 'admin' },
+	{ _id: '2', firstName: 'Nado', lastName: 'D', email: 'nado@example.com', role: 'teacher' },
+	{ _id: '3', firstName: 'Alice', lastName: 'L', email: 'alice@example.com', role: 'student' },
+	{ _id: '4', firstName: 'Bob', lastName: 'M', email: 'bob@example.com', role: 'student' }
+];
+
+export function useUsers() {
+	const users = ref([]);
+	const loading = ref(false);
+	const error = ref(null);
+
+	const fetchUsers = async () => {
+		loading.value = true;
+		error.value = null;
+		try {
+			if (axios) {
+				const response = await axios.get('/users');
+				users.value = response.data;
+			} else {
+				// fallback
+				users.value = MOCK_USERS;
+			}
+		} catch (err) {
+			error.value = err.message || 'Une erreur est survenue';
+			users.value = MOCK_USERS;
+		} finally {
+			loading.value = false;
+		}
+	};
+
+	return {
+		users,
+		loading,
+		error,
+		fetchUsers
+	};
+}
+
+
 // import { ref } from 'vue';
 // import { getUsers, getUser, createUser, updateUser, deleteUser } from '../api/user.api';
 
