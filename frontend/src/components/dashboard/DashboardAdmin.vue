@@ -1,19 +1,11 @@
 <script setup>
-
-
+import { useAuth } from '@/composables/auth';
+const { user } = useAuth();
 </script>
 
-
 <template>
-
-<div>
-  Hellow DAA&1
-</div>
-
+<h1> B'ienvenue {{ user.name }}</h1>
 </template>
 
-
 <style scoped>
-
-
 </style>

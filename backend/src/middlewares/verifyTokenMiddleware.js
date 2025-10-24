@@ -16,6 +16,8 @@ const verifyTokenMiddleware = (req, res, next) => {
 
     // 4. Attacher les infos du user à la requête
     req.user = decoded
+    // console.log(req.user);
+    
 
     // 5. Passer au prochain middleware ou route
     next()
