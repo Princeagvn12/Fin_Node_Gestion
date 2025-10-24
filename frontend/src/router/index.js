@@ -119,6 +119,12 @@ const router = createRouter({
       ],
       component: () => import('../views/DepartmentsViews.vue'),
     },
+
+    {
+      name: 'hours',
+      path: '/hours',
+      component: () => import('../views/HoursViews.vue')
+    }
   ],
 })
 

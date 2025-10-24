@@ -1,7 +1,7 @@
 // src/composables/hour.js
 
 import { ref } from 'vue'
-import axios from '../api/axios.js'  // On utilise ton axios.js existant pour centraliser l'API
+import axiosClient from '../api/axios.js'  // On utilise ton axios.js existant pour centraliser l'API
 
 export function useHours() {
   const loading = ref(false)
@@ -13,8 +13,8 @@ export function useHours() {
     error.value = ""
     try {
       // Endpoint à adapter si besoin, typiquement /api/courses ou /api/courses/me
-      const res = await axios.get("/courses") // Peut-être /courses/me selon ton backend !
-      return res.data.data
+      const res = await axiosClient.get("/courses") // Peut-être /courses/me selon ton backend !
+      return res.data
     } catch (err) {
       error.value = err?.response?.data?.message || err.message
       return []
@@ -28,8 +28,8 @@ export function useHours() {
     loading.value = true
     error.value = ""
     try {
-      const res = await axios.get("/hours/me")
-      return res.data.data
+      const res = await axiosClient.get("/hours/me")
+      return res.data
     } catch (err) {
       error.value = err?.response?.data?.message || err.message
       return []
@@ -43,8 +43,8 @@ export function useHours() {
     loading.value = true
     error.value = ""
     try {
-      const res = await axios.post("/hours", hour)
-      return res.data.data
+      const res = await axiosClient.post("/hours", hour)
+      return res.data
     } catch (err) {
       error.value = err?.response?.data?.message || err.message
       throw err
@@ -58,8 +58,8 @@ export function useHours() {
     loading.value = true
     error.value = ""
     try {
-      const res = await axios.put(`/hours/${id}`, hour)
-      return res.data.data
+      const res = await axiosClient.put(`/hours/${id}`, hour)
+      return res.data
     } catch (err) {
       error.value = err?.response?.data?.message || err.message
       throw err
@@ -73,7 +73,7 @@ export function useHours() {
     loading.value = true
     error.value = ""
     try {
-      await axios.delete(`/hours/${id}`)
+      await axiosClient.delete(`/hours/${id}`)
       return true
     } catch (err) {
       error.value = err?.response?.data?.message || err.message

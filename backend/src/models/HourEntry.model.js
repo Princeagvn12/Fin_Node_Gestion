@@ -1,4 +1,4 @@
-const mongoose = require("momngoose");
+const mongoose = require("mongoose");
 
 const HourEntrySchema = mongoose.Schema(
   {

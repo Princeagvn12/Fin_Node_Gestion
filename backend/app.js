@@ -16,6 +16,7 @@ const port = process.env.PORT
 const connectDataBase = require('./src/config/db.js')
 const authRoutes = require('./src/routes/auth.routes.js')
 const coursRoutes = require('./src/routes/course.routes.js')
+const hoursRoutes = require('./src/routes/hour.routes.js')
 
 connectDataBase()
 
@@ -29,8 +30,8 @@ app.use(helmet())
 // routes principales (api)
 app.use('/api/auth', authRoutes)
 app.use('/api/departments', departmentRoutes)
-app.use('/api/courses', courseRoutes)
-// app.use('/api/hour',)
+app.use('/api/courses', coursRoutes)
+app.use('/api/hour', hoursRoutes)
 // app.use('/api/user',)
 
 app.listen(port, () => {
