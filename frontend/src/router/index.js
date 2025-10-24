@@ -122,7 +122,6 @@ const router = createRouter({
   ],
 })
 
-
 router.beforeEach(  async (to, from, next) =>{
   const auth = useAuth()
   await auth.fetchUser()

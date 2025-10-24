@@ -1,7 +1,10 @@
 import axiosClient  from "@/api/axios";
 import { ref } from "vue";
+import router from "@/router";
+
+
 const user = ref(null)
-  const isAuthenticated = ref(false)
+const isAuthenticated = ref(false)
 
 export function useAuth (){
     async function login(payload) {
@@ -20,12 +23,29 @@ export function useAuth (){
         try {
             const res =  await axiosClient.get('/auth/me', { withCredentials: true })
             user.value = res.data.user
-            console.log(user.value)
             isAuthenticated.value = true
-            
-         } catch (error) {
-             user.value = null
+            console.log(user.value);
+         } catch {
+            try {
+                await axios.post('/auth/refresh', null, { withCredentials: true })
+                const res = await axiosClient.post('/me', { withCredentials: true })
+                user.value = res.data.user
+                isAuthenticated.value = true
+            } catch {
+                user.value = null
+               isAuthenticated.value = false
+            }
+        }
+    }
+
+    async function logout() {
+        try {
+            const res = await axiosClient.post('/auth/logout', { withCredentials: true })
+            user.value= null
             isAuthenticated.value = false
+            router.push('/login')
+        } catch (error) {
+            console.error("Erreur de déconnexion :", error)
         }
     }
 
@@ -33,6 +53,7 @@ export function useAuth (){
         login,
         register,
         fetchUser,
+        logout,
         user,
         isAuthenticated
     }
