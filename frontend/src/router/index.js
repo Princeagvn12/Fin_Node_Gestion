@@ -95,11 +95,13 @@ const router = createRouter({
               name: 'uselist',
               path: 'uselist',
               component: () => import('../components/users/UserList.vue'),
+              meta: { requiresAuth: true },
             },
             {
               name: 'profile',
               path: 'profile',
               component: () => import('../components/users/UserProfile.vue'),
+              meta: { requiresAuth: true },
             },
           ],
         },
@@ -112,6 +114,7 @@ const router = createRouter({
               name: 'departform',
               path: 'departform',
               component: () => import('../components/departments/DepartmentForm.vue'),
+              meta: { requiresAuth: true },
             },
             {
               name: 'departlist',
@@ -120,12 +123,14 @@ const router = createRouter({
             },
           ],
           component: () => import('../views/DepartmentsViews.vue'),
+          meta: { requiresAuth: true },
         },
 
         {
           name: 'hours',
           path: '/hours',
           component: () => import('../views/HoursViews.vue'),
+          meta: { requiresAuth: true },
         },
       ],
     },

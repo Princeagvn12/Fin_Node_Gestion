@@ -38,9 +38,8 @@ const handleFileChange = (event) => {
 <template>
   <!-- Navbar placeholder -->
 
-<header>
     <header class="bg-white  shadow-sm p-4 flex justify-between items-center ">
-      <h1 class="text-gray-900 text-sm">{{ user?.email || 'U'}}</h1>
+      <h1 class="text-gray-900 text-sm">{{ user?.email}}</h1>
       <div class="flex items-center gap-4">
         <button @click="handleLogout" class="bg-[#385edd] text-white px-3 cursor-pointer py-1 rounded-lg text-sm hover:bg-[#6a84d8]">
           <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -59,6 +58,5 @@ const handleFileChange = (event) => {
       </div>
     </div>
   </header>
-</header>
 </template>
 
