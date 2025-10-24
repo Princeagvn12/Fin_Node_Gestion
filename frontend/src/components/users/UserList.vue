@@ -59,7 +59,7 @@ const handleDelete = async (userId) => {
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold text-center">Gestion des utilisateurs</h1>
           <RouterLink 
-        to="admin/users/useform"
+        to="/admin/users/useform"
         class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex w-50 items-center"
       >
         <span class="mr-2">+</span> Ajouter un utilisateur

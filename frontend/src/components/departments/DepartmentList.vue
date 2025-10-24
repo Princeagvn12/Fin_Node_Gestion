@@ -38,7 +38,7 @@ const handleDelete = async (deptId) => {
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl font-bold">Gestion des départements</h1>
       <RouterLink 
-        to="admin/department/departform"
+        to="/admin/department/departform"
         class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center"
       >
         <span class="mr-2">+</span> Ajouter un département

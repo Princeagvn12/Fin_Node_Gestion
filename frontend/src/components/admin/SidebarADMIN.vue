@@ -37,7 +37,7 @@
       </li>
 
       <li>
-        <RouterLink to="/admin" class="flex items-center gap-3 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+        <RouterLink to="/" class="flex items-center gap-3 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900">
           <i class="ri-settings-line text-xl text-gray-600"></i>
           <span class="text-sm font-medium">Paramètres</span>
         </RouterLink>

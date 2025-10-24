@@ -6,8 +6,6 @@ import RepatitionUtilisateurs from '@/components/admin/RepatitionUtilisateurs.vu
 import CoursComponent from '@/components/admin/CoursComponent.vue';
 </script>
 
-
-
  <template>
   <div class="flex dark:bg-gray-900 transition-colors duration-300">
     <!--  Sidebar (optionnelle, à gauche) -->

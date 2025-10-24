@@ -18,6 +18,7 @@ const router = createRouter({
           path:'courseslist',
           component:() =>import('../components/courses/CourseList.vue')
         },
+
            {
       name: 'users',
       path: '/users',
@@ -37,7 +38,7 @@ const router = createRouter({
         },
         {
           name: 'profile',
-          path: '/profile',
+          path: 'profile',
           component: () => import('../components/users/UserProfile.vue'),
         },
       ],
@@ -45,7 +46,7 @@ const router = createRouter({
 
      {
       name: 'department',
-      path: '/department',
+      path: 'department',
       children: [
         {
           name: 'departform',
