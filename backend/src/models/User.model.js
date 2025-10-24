@@ -1,6 +1,9 @@
+// User model placeholder
+
 const mongoose = require('mongoose')
-
-
+const { hashValue, verifyHash } = require('../utils/hash')
+ 
+ 
 const UserSchema = new mongoose.Schema({
     name: {
       type: String,
@@ -33,13 +36,44 @@ const UserSchema = new mongoose.Schema({
       lowercase: true,
     },
     department:{
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Type.ObjectId,
         ref: 'Departement',
+        required: true
     },
-    isActive: Boolean,
+    // ✅ Champ booléen avec valeur par défaut
+    isActive: { type: Boolean, default: true }
 },{
     timestamps: true,
-})
+});
 
+
+/**
+ * Middleware Mongoose "pre-save"
+ * ------------------------------
+ * Avant de sauvegarder un utilisateur, on vérifie si le mot de passe
+ * a été modifié. Si oui, on le hash avec Argon2.
+ */
+userSchema.pre("save", async function (next) {
+    try {
+      // Vérifie si le champ mot_de_passe est nouveau ou modifié
+      if (this.isModified("password")) {
+        this.password = await hashValue(this.password);
+      }
+      next();
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+  /**
+   * Méthode personnalisée pour vérifier un mot de passe
+   * ---------------------------------------------------
+   * Compare un mot de passe en clair avec le hash stocké.
+   */
+  userSchema.methods.verifyPassword = async function (mot_de_passe) {
+    return await verifyHash(this.password, mot_de_passe);
+  };
+
+ 
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
