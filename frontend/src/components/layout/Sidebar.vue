@@ -1,16 +1,21 @@
 <script setup>
 const dashViews = [
   { key: "dashboard", label: "DashboardAdmin", to: { name: "dashboardadmin" } },
-  { key: "dashboard-rh", label: "DashboardRH", to: { name: "dashboard-rh" } },
+  { key: "dashboard-users", label: "Gestion des utilisateurs", to: { name: "dashboard-users" } },
   {
-    key: "dashboardstudent",
-    label: "DashboardStudent",
-    to: { name: "dashboardstudent" },
+    key: "departements",
+    label: "Gestion des Departement",
+    to: { name: "departements" },
   },
   {
-    key: "dashboardteacher",
-    label: "DashboardTeacher",
-    to: { name: "dashboardteacher" },
+    key: "coursdash",
+    label: "Gestion des cours",
+    to: { name: "coursdash" },
+  },
+  {
+    key: "student",
+    label: "Mes cours",
+    to: { name: "student" },
   },
 ];
 </script>

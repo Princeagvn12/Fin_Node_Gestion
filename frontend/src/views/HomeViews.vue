@@ -1,8 +1,9 @@
 <template>
   <!-- Home page placeholder -->
-
+<LoginViews/>
 </template>
 
 <script>
-export default {};
+import LoginViews from './Auth/LoginViews.vue';
+
 </script>

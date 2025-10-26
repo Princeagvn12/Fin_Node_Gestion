@@ -17,22 +17,12 @@ const router = createRouter({
       name: 'login',
       component: LoginViews,
     },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   component: RegisterView ,
-    // },
     {
       path: '/register',
       name: 'register',
       component: RegisterView ,
     },
     {
-      /*
-     - /dashboard/rh
-     - /dashboard/teacher
-     - /dashboard/student
-       */
       path: '/dashboard',
       name: 'dashboard',
       component: DashboardView ,
@@ -44,22 +34,28 @@ const router = createRouter({
         ,meta: { requiresAuth: true },
         },
         {
-          path : 'dashboard-rh',
-          name : "dashboard-rh",
-          component : () => import('../components/dashboard/DashboardRH.vue')
+          path : 'dashboard-users',
+          name : "dashboard-users",
+          component : () => import('../components/dashboard/DashboardUser.vue')
         },
         {
-          path : 'dashboardstudent',
-          name : "dashboardstudent",
-          component : () => import('../components/dashboard/DashboardStudent.vue')
+          path : 'departements',
+          name : "departements",
+          component : () => import('../components/dashboard/DashboardDepartement.vue')
          , meta: { requiresAuth: true },
         },
         {
-          path : 'dashboardteacher',
-          name : "dashboardteacher",
-          component : () => import('../components/dashboard/DashboardTeacher.vue')
+          path : 'coursdash',
+          name : "coursdash",
+          component : () => import('../components/dashboard/DashboardCours.vue')
         ,meta: { requiresAuth: true },
-        }
+        },
+        {
+          path : 'student',
+          name : "student",
+          component : () => import('../views/StudentsViews.vue')
+        ,meta: { requiresAuth: true },
+        },
       ]
     }
   ,
@@ -81,25 +77,6 @@ const router = createRouter({
       name: 'users',
       path: '/users',
       component: () => import('../views/UsersViews.vue'),
-
-      children: [
-        {
-          name: 'useform',
-          path: 'useform',
-          component: () => import('../components/users/UserForm.vue'),
-        },
-
-        {
-          name: 'uselist',
-          path: 'uselist',
-          component: () => import('../components/users/UserList.vue'),
-        },
-        {
-          name: 'profile',
-          path: '/profile',
-          component: () => import('../components/users/UserProfile.vue'),
-        },
-      ],
     },
 
     {

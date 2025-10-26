@@ -1,21 +1,14 @@
 <script setup>
 import { useAuth } from '@/composables/auth';
+import UsersViews from '@/views/UsersViews.vue';
 const { user } = useAuth();
-const userName = user.name
-console.log(userName);
 </script>
 
-
 <template>
-
-<div>
-  {{ user.name }}
-</div>
-
+<h1> B'ienvenue {{ user.name }}</h1>
+<UsersViews/>
+<!-- <UsersViews/> -->
 </template>
 
-
 <style scoped>
-
-
 </style>
