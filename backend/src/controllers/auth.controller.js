@@ -4,7 +4,7 @@ const { genrateRefreshToken, generateToken, decodeToken } = require('../utils/ma
 
 
 const register = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password , role, statut} = req.body;
 
     if(!name || !email || !password)
         return res.status(400).json({message: 'Le nom, email et le mot de passe est require'})
@@ -22,7 +22,9 @@ const register = async (req, res) => {
     const newUser = {
         name,
         email,
-        password: hashPassword
+        password: hashPassword,
+        role : role || 'Etudiant',
+        statut : statut || 'Actif'
     }
     await User.create(newUser)
     res.status(201).json({
@@ -31,7 +33,8 @@ const register = async (req, res) => {
             _id: newUser._id,
             name: newUser.name,
             email: newUser.email,
-            role:newUser.role
+            role:newUser.role || 'Etudiant',
+            statut : newUser.statut || 'Inactif'
         }
     })
 }
@@ -47,9 +50,8 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({email:email});
-
-    if(!user)
-        return res.status(401).json({message: 'Ede passe incorrect'});
+    if(!user)return res.status(401).json({message: 'Ede passe incorrect'});
+    if(user.statut !== 'Actif') return res.status(403).json({message : "Compte Inactif"})
 
     const isPasswordValid = await verifyHash(user.password, password)
     if(!isPasswordValid){
@@ -133,5 +135,8 @@ const refresh = async (req, res) => {
 const  guard = async (req, res) => {
     res.status(200).json({ user: req.user });
 }
+
+
+
 
 module.exports = { register, login, logout, refresh, guard};

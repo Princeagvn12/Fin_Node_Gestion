@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -28,9 +28,13 @@ const UserSchema = new mongoose.Schema({
     role: {
       type: String,
       required: true,
-      enum: ["etudiant", "admin", "formateur", "formateur_principal"],
+      enum: ["etudiant", "admin", "formateur", "rh"],
       default: "etudiant",
       lowercase: true,
+    },
+    statut : {
+      type : String ,
+      enum : [ 'Actif', 'Inactif']
     },
     department:{
         type: mongoose.Schema.Types.ObjectId,
@@ -40,6 +44,6 @@ const UserSchema = new mongoose.Schema({
 },{
     timestamps: true,
 })
-
+UserSchema.plugin(AutoIncrement, { inc_field: 'id' });
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
