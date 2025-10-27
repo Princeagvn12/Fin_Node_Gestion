@@ -23,8 +23,7 @@ const handeLogin = async () => {
 </script>
 
 <template>
-<div class=" absolute top-0 left-0 right-0 z-50">
-    <div class="flex min-h-screen items-center absolute top-0 left-0 right-0 -0 ">
+  <div class="flex min-h-screen items-center absolute top-0 left-0 right-0 -0 ">
     <div class="hidden lg:block lg:w-1/2 xl:w-3/5">
       <img src="/auth-img1.png" alt="Connexion" class="w-120 object-cover" />
     </div>
@@ -111,7 +110,6 @@ const handeLogin = async () => {
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <style scoped></style>

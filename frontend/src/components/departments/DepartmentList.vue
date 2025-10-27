@@ -13,7 +13,6 @@ onMounted(() => {
 const department = ref([]);
 const query = ref('')
 
-
 const departments = computed(() => {
   if (!query.value) return department.value;
   return department.value.filter(c =>
