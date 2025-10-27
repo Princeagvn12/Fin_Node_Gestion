@@ -86,12 +86,12 @@ const router = createRouter({
         {
           name: 'departform',
           path: 'departform',
-          component: () => import('../components/departments/DepartmentForm.vue'),
+          component: () => import('../components/departments/DepartmentModal.vue'),
         },
         {
           name: 'departlist',
           path: 'departlist',
-          component: () => import('../components/departments/DepartmentList.vue'),
+          component: () => import('../components/departments/DepartmentTable.vue'),
         },
       ],
       component: () => import('../views/DepartmentsViews.vue'),

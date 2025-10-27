@@ -13,10 +13,10 @@ async function createUser(data) {
   try {
     const res = await axiosClient.post('/auth/register', data);
     const user = res.data;
-    console.log('✅ Utilisateur créé :', user);
+    console.log(' Utilisateur créé :', user);
     return user;
   } catch (error) {
-    console.error('❌ Erreur lors de la création :', error.response?.data || error.message);
+    console.error(' Erreur lors de la création :', error.response?.data || error.message);
     throw error;
   }
 }
