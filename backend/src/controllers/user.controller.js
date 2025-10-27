@@ -13,8 +13,7 @@ const updateUser = async (req, res) => {
   try {
     const {id, name, email } = req.body;
 
-    const updatdUser = await User. User.findByIdAndUpdate(id, { name, email }, { new: true })
-
+    const updatdUser = await User.updateOne({id: id}, { name, email }, { new: true })
 
     if (!updatdUser) {
       return res.status(404).json({ message: "Utilisateur introuvable." });
@@ -22,7 +21,8 @@ const updateUser = async (req, res) => {
 
     res.status(200).json({
       message: "Utilisateur modifié avec succès.",
-     updatedUser
+     updatdUser,
+     success: true
     });
   } catch (error) {
     res.status(500).json({

@@ -43,7 +43,7 @@ const options = {
     httpOnly: true,
     sameSite: 'strict',
     secure: false,
-    maxAge: 3 * 60 * 1000
+    maxAge: 50 * 60 * 1000
 }
 let refreshTKDB = [];
 const login = async (req, res) => {
