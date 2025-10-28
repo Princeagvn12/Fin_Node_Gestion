@@ -39,11 +39,13 @@ const UserSchema = new mongoose.Schema({
     department:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Departement',
+        default: null
     },
     isActive: Boolean,
 },{
     timestamps: true,
 })
+
 UserSchema.plugin(AutoIncrement, { inc_field: 'id' });
 const User = mongoose.model('User', UserSchema);
 module.exports = User;

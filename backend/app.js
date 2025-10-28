@@ -7,15 +7,17 @@ const cookieParser = require('cookie-parser')
 const app = express()
 
 
-const departmentRoutes = require('./src/routes/department.routes.js')
+
 const courseRoutes = require('./src/routes/course.routes.js')
 
 
 const port = process.env.PORT
 
 const connectDataBase = require('./src/config/db.js')
+
 const authRoutes = require('./src/routes/auth.routes.js')
 const userRoutes = require('./src/routes/user.routes.js')
+const departementRoutes = require('./src/routes/department.routes.js')
 
 connectDataBase()
 
@@ -27,10 +29,10 @@ app.use(morgan('dev'))
 app.use(helmet())
 
 // routes principales (api)
-app.use('/api/user',userRoutes)
 app.use('/api/auth', authRoutes)
-app.use('/api/departments', departmentRoutes)
 app.use('/api/courses', courseRoutes)
+app.use('/api/departement',departementRoutes)
+app.use('/api/user',userRoutes)
 // app.use('/api/hour',)
 
 app.listen(port, () => {

@@ -1,41 +1,76 @@
-// controllers/departmentController.js
+// Exemple Express
+const { Departement } = require("../models/Department.model.js");
+const User = require("../models/User.model.js");
 
-const Department = require('../models/Department.model');
-
-// ✅ Créer un département
-const createDepartment = async (req, res) => {
+const assignFormateurToDepartement = async (req, res) => {
   try {
-    const dept = new Department(req.body);
-    await dept.save();
-    res.json({ success: true, data: dept });
-  } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    const { userId, departementId } = req.body;
+
+    const user = await User.findById(userId);
+    const departement = await Departement.findById(departementId);
+
+    if (!user || !departement) {
+      return res.status(404).json({ message: "Utilisateur ou département introuvable." });
+    }
+
+    if (user.role !== 'formateur') {
+      return res.status(400).json({ message: "Seuls les formateurs peuvent être affectés." });
+    }
+
+    user.departement = departement._id;
+    await user.save();
+
+    res.json({ message: "Formateur attribué au département avec succès." });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
 };
 
-// ✅ Lister tous les départements
-const getDepartments = async (req, res) => {
+const getFormateursSansDepartement  =  async (req, res) => {
   try {
-    const depts = await Department.find();
-    res.json(depts);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    const formateurs = await User.find({
+      role: 'formateur',
+      departement: null 
+    });
+
+    res.json(formateurs);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur lors de la récupération des formateurs." });
   }
 };
 
-// ✅ Supprimer un département
-const deleteDepartment = async (req, res) => {
+const createDepartement = async (req, res) => {
   try {
-    await Department.findByIdAndDelete(req.params.id);
-    res.json({ success: true, message: 'Département supprimé' });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    const { principalInstructor, name, numberOfCourses } = req.body;
+
+    // Vérification des champs obligatoires
+    if (!name || numberOfCourses == null) {
+      return res.status(400).json({ message: "Nom et nombre de cours requis." });
+    }
+
+    // Si un formateur est fourni, on vérifie qu'il existe et qu'il a le bon rôle
+    let instructor = null;
+    if (principalInstructor) {
+      instructor = await User.findById(principalInstructor);
+      if (!instructor || instructor.role !== 'formateur') {
+        return res.status(400).json({ message: "Formateur principal invalide ou inexistant." });
+      }
+    }
+
+    // Création du département
+    const newDepartement = await Departement.create({
+      name,
+      numberOfCourses,
+      principalInstructor: instructor ? instructor._id : null
+    });
+
+    res.status(201).json({
+      message: "Département créé avec succès.",
+      departement: newDepartement
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
 };
-
-// ✅ Exporter les fonctions (CommonJS)
-module.exports = {
-  createDepartment,
-  getDepartments,
-  deleteDepartment,
-};
+module.exports = { assignFormateurToDepartement ,getFormateursSansDepartement,createDepartement  };

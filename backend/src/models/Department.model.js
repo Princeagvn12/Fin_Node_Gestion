@@ -1,27 +1,24 @@
 const mongoose = require("mongoose");
 
-const DepartementSchema = new mongoose.Schema(
+const departementSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-      minlength: [2, "Le nom doit contenir au moins 2 caractères"],
-      maxlength: [50, "Le nom doit contenir au plus 50 caractères"],
-    },
-    description: {
-      type: String,
-      trim: true,
-    },
-    mainTeacher: {
+    name: { type: String, required: true }, // Nom du département
+    principalInstructor: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-    },
+      default: null,
+    }, // Formateur Principal
+    
+    numberOfCourses: { type: Number, default: 0 }, // Nombre de cours
+    statut: { type: String, enum: ["Actif", "Inactif"], default: "Actif" }, // Statut du département
+    users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Liste des utilisateurs liés
   },
   {
     timestamps: true,
   }
 );
-const Departement = mongoose.model('Departement', DepartementSchema);
-module.exports = Departement;
+
+const Departement= mongoose.model("Departement", departementSchema);
+
+module.exports = {Departement}

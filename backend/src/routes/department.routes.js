@@ -1,16 +1,9 @@
-const express = require('express') 
-const { createDepartment, getDepartments, deleteDepartment} = require('../controllers/department.controller.js')
-const authMiddleware = require('../middlewares/auth.middleware.js')
-const roleMiddleware = require('../middlewares/role.middleware.js')
+const express = require('express');
+const {createDepartement ,assignFormateurToDepartement,getFormateursSansDepartement}= require('../controllers/department.controller')
+const router = express.Router();
+router.post('/assign',assignFormateurToDepartement )
 
-const router = express.Router()
-router.post('/',authMiddleware,roleMiddleware, createDepartment, )
-router.get('/', getDepartments)
-// router.get('/:id', getDepartmentById)// a ajouter , getDepartmentById
-router.delete('/:id',authMiddleware,roleMiddleware, deleteDepartment)
-// router.put('/',authMiddleware, roleMiddleware, updateDepartment)// a ajouter , updateDepartment
+router.post('/',createDepartement  )
+router.get('/formateurs-disponibles', getFormateursSansDepartement);
 
 module.exports = router;
-
-
-
