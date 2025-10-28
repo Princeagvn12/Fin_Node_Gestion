@@ -40,7 +40,6 @@ const closeEditModal = () => {
   resetForm()
 }
 
-
 const filteredUsers = computed(() =>
   users.value.filter(
     (u) =>

@@ -1,3 +1,6 @@
+<script setup>
+defineProps(['departements'])
+</script>
 <template>
   <table class="table-auto w-full border">
     <thead>
@@ -32,6 +35,3 @@
   </table>
 </template>
 
-<script setup>
-defineProps(['departements'])
-</script>
