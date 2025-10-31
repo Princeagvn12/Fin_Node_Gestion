@@ -218,6 +218,16 @@ const submitEdit = async () => {
           <td class="px-4 py-2">{{ user.name }}</td>
           <td class="px-4 py-2">{{ user.email }}</td>
           <td class="px-4 py-2">
+<div class="flex items-center gap-2">
+  <i
+    :class="{
+      'fas fa-user-shield text-blue-700': user.role === 'admin',
+      'fas fa-chalkboard-teacher text-green-700': user.role === 'formateur',
+      'fas fa-user-graduate text-yellow-700': user.role === 'etudiant',
+      'fas fa-people-group text-purple-700': user.role === 'rh'
+    }"
+  ></i>
+
   <select
     v-model="user.role"
     @change="updateRole(user._id, user.role)"
@@ -229,24 +239,36 @@ const submitEdit = async () => {
       'bg-purple-100 text-purple-700': user.role === 'rh'
     }"
   >
-    <option value="admin">👑 Admin</option>
-    <option value="formateur">📘 Formateur</option>
-    <option value="etudiant">🎓 Étudiant</option>
-    <option value="rh">🧑‍💼 RH</option>
+    <option value="admin">Admin</option>
+    <option value="formateur">Formateur</option>
+    <option value="etudiant">Étudiant</option>
+    <option value="rh">RH</option>
   </select>
+</div>
+
 </td>
 
           <td class="px-4 py-2">
-             <select
+<div class="flex items-center gap-2">
+  <i
+    :class="{
+      'fas fa-check-circle text-green-700': user.statut === 'Actif',
+      'fas fa-times-circle text-red-700': user.statut === 'Inactif'
+    }"
+  ></i>
+
+  <select
     v-model="user.statut"
     @change="updateStatut(user._id, user.statut)"
-     :disabled="loading"
+    :disabled="loading"
     class="px-2 py-1 rounded border text-sm"
     :class="user.statut === 'Actif' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
   >
-    <option value="Actif">✅ Actif</option>
-    <option value="Inactif">⛔ Inactif</option>
+    <option value="Actif">Actif</option>
+    <option value="Inactif">Inactif</option>
   </select>
+</div>
+
           </td>
           <td class="px-4 py-2 flex gap-3 text-gray-600" >
             <div >
