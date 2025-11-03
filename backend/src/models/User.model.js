@@ -28,14 +28,16 @@ const UserSchema = new mongoose.Schema({
     role: {
       type: String,
       required: true,
-      enum: ["etudiant", "admin", "formateur", "rh"],
+      enum: ["etudiant", "admin", "formateur","formateur-principal", "rh"],
       default: "etudiant",
       lowercase: true,
     },
-    statut : {
-      type : String ,
-      enum : [ 'Actif', 'Inactif']
-    },
+    statut: {
+      type: String,
+      enum: ['Actif', 'Inactif'],
+      default: 'Actif'
+    }
+    ,
     department:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Departement',
