@@ -1,4 +1,6 @@
 <script setup>
+import CoursesViews from '@/views/CoursesViews.vue';
+
 
 
 </script>
@@ -7,7 +9,7 @@
 <template>
 
 <div>
-  Hellow DAA&4
+  <CoursesViews/>
 </div>
 
 </template>

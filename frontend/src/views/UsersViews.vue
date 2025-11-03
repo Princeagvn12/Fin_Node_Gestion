@@ -154,6 +154,7 @@ const submitEdit = async () => {
          <option value="">-- Sélectionner --</option>
          <option value="admin">Admin</option>
          <option value="formateur">Formateur</option>
+         <option value="formateur-principal">Formateur-principal</option>
          <option value="etudiant">Étudiant</option>
          <option value="rh">RH</option>
        </select>
@@ -210,7 +211,7 @@ const submitEdit = async () => {
         <tr
           v-for="user in filteredUsers"
           :key="user.email"
-          class="border-b"
+          class="border-b border-gray-300"
         >
           <td class="px-4 py-2">
             <input type="checkbox" v-model="selected" :value="user.email" />
@@ -223,6 +224,7 @@ const submitEdit = async () => {
     :class="{
       'fas fa-user-shield text-blue-700': user.role === 'admin',
       'fas fa-chalkboard-teacher text-green-700': user.role === 'formateur',
+      'fas fa-user-tie text-green-700': user.role === 'formateur-principal',
       'fas fa-user-graduate text-yellow-700': user.role === 'etudiant',
       'fas fa-people-group text-purple-700': user.role === 'rh'
     }"
@@ -235,12 +237,14 @@ const submitEdit = async () => {
     :class="{
       'bg-blue-100 text-blue-700': user.role === 'admin',
       'bg-green-100 text-green-700': user.role === 'formateur',
+      'bg-green-200 text-green-700': user.role === 'formateur-principal',
       'bg-yellow-100 text-yellow-700': user.role === 'etudiant',
       'bg-purple-100 text-purple-700': user.role === 'rh'
     }"
   >
     <option value="admin">Admin</option>
     <option value="formateur">Formateur</option>
+    <option value="formateur-principal">Formateur-principal</option>
     <option value="etudiant">Étudiant</option>
     <option value="rh">RH</option>
   </select>
