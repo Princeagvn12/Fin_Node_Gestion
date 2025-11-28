@@ -671,3 +671,4 @@ Si vous voulez, je peux :
 
 Veux-tu que je génère maintenant les fichiers boilerplate (backend models/controllers + frontend stores et composants skeleton) pour que l'équipe commence à coder ? Si oui, précises si tu veux que je crée une branche ou que je prépare des PRs (je peux te fournir le contenu prêt à copier/coller).
 ```
+"# Fin_node_groupe" 
