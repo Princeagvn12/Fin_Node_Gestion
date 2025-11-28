@@ -1,49 +1,112 @@
+// import { ref } from 'vue';
+// let axios;
+// try { axios = require('axios'); } catch (e) { axios = null; }
+// import axiosClient from '@/api/axios';
+
+// // Mock data fallback so components work even without backend
+// const MOCK_USERS = [
+// 	{ _id: '1', firstName: 'Jean', lastName: 'Dupont', email: 'jean@example.com', role: 'admin' },
+// 	{ _id: '2', firstName: 'Nado', lastName: 'D', email: 'nado@example.com', role: 'teacher' },
+// 	{ _id: '3', firstName: 'Alice', lastName: 'L', email: 'alice@example.com', role: 'student' },
+// 	{ _id: '4', firstName: 'Bob', lastName: 'M', email: 'bob@example.com', role: 'student' }
+// ];
+
+// export function useUsers() {
+// 	const users = ref([]);
+// 	const loading = ref(false);
+// 	const error = ref(null);
+
+// 	const fetchUsers = async () => {
+// 		loading.value = true;
+// 		error.value = null;
+// 		try {
+// 			if (axios) {
+// 				const response = await axios.get('/users');
+// 				users.value = response.data;
+// 			} else {
+// 				// fallback
+// 				users.value = MOCK_USERS;
+// 			}
+// 		} catch (err) {
+// 			error.value = err.message || 'Une erreur est survenue';
+// 			users.value = MOCK_USERS;
+// 		} finally {
+// 			loading.value = false;
+// 		}
+// 	};
+
+
+
+// 	return {
+// 		users,
+// 		loading,
+// 		error,
+// 		fetchUsers
+// 	};
+// }
+
 import { ref } from 'vue';
-let axios;
-try { axios = require('axios'); } catch (e) { axios = null; }
+import axiosClient from '@/api/axios';
 
-// Mock data fallback so components work even without backend
-const MOCK_USERS = [
-	{ _id: '1', firstName: 'Jean', lastName: 'Dupont', email: 'jean@example.com', role: 'admin' },
-	{ _id: '2', firstName: 'Nado', lastName: 'D', email: 'nado@example.com', role: 'teacher' },
-	{ _id: '3', firstName: 'Alice', lastName: 'L', email: 'alice@example.com', role: 'student' },
-	{ _id: '4', firstName: 'Bob', lastName: 'M', email: 'bob@example.com', role: 'student' }
-];
+export function useUsers(){
+	async function getAllUsers() {
 
-export function useUsers() {
-	const users = ref([]);
-	const loading = ref(false);
-	const error = ref(null);
-
-	const fetchUsers = async () => {
-		loading.value = true;
-		error.value = null;
 		try {
-			if (axios) {
-				const response = await axios.get('/users');
-				users.value = response.data;
-			} else {
-				// fallback
-				users.value = MOCK_USERS;
-			}
-		} catch (err) {
-			error.value = err.message || 'Une erreur est survenue';
-			users.value = MOCK_USERS;
-		} finally {
-			loading.value = false;
+			const res= await axiosClient.get('/user')
+		return res.data
+		} catch (error) {
+			console.error("Erreur lors des la récupération des utilisateurs",error.message);
+			
 		}
-	};
+	}
+
+	async function createUser(data) {
+		try {
+			const res= await axiosClient.post('/user',data)
+			if(res.data){
+
+				return res.data
+			}
+
+		} catch (error) {
+			console.error("Erreur lors de la création de l'utilisateur",error.message);
+			
+		}
+	}
+
+	async function updateUser(data) {
+		try {
+			const res= await axiosClient.put(`/user`,data)
+			if(res.data){
+				return res.data
+			}
+		} catch (error) {
+			console.error("Erreur lors de la mise à jour de l'utilisateur",error.message);
+			
+		}
+	}
+
+	async function deleteUser(id) {
+		try {
+			const res= await axiosClient.delete(`/user/${id}`)
+			if(res.data){
+				return res.data
+			}
+		} catch (error) {
+			console.error("Erreur lors de la suppression de l'utilisateur",error.message);
+			
+		}
+	}
 
 	return {
-		users,
-		loading,
-		error,
-		fetchUsers
-	};
+		getAllUsers,
+		createUser,
+		updateUser,
+		deleteUser
+	}
 }
 
 
-// import { ref } from 'vue';
 // import { getUsers, getUser, createUser, updateUser, deleteUser } from '../api/user.api';
 
 // export function useUsers() {

@@ -1,30 +1,36 @@
 <script setup>
 import {ref, onMounted,computed } from 'vue';
-// import { useUsers } from '../../composables/user';
-// import { RouterLink } from 'vue-router';
+import { useUsers } from '../../composables/user';
+
+const {getAllUsers,
+		createUser,
+		updateUser,
+		deleteUser} = useUsers(); 
+
 
 // const { users, loading, error, fetchUsers, removeUser } = useUsers();
-//recchercher les utilissateurs
+//rechercher les utilissateurs
 const utilisateur = ref([]);
 const query = ref('');
 
-const MOCK_USERS = [
-  {_id: 1, name: 'John Doe', email: 'johndoe@example', role: 'Etudiant',status: 'Actif' },
-{
-  _id: 2,
-  name:'dupont',
-  email: 'johndoe@example',
-  role: 'Formateur_principale',
-  status: 'inactif'
-},
-  {
-    _id: 3,
-    name:'marie',
-    email: 'marie@example',
-    role: 'Formateur',
-    status: 'actif'
-  }
-];
+
+// const MOCK_USERS = [
+//   {_id: 1, name: 'John Doe', email: 'johndoe@example', role: 'Etudiant',status: 'Actif' },
+// {
+//   _id: 2,
+//   name:'dupont',
+//   email: 'johndoe@example',
+//   role: 'Formateur_principale',
+//   status: 'inactif'
+// },
+//   {
+//     _id: 3,
+//     name:'marie',
+//     email: 'marie@example',
+//     role: 'Formateur',
+//     status: 'actif'
+//   }
+// ];
 
 utilisateur.value = MOCK_USERS;
 
@@ -42,6 +48,28 @@ const users = computed(() => {
 onMounted(() => {
   // fetchUsers();
 });
+
+//modifier un utilisateur
+
+const showEditForm = ref(false);
+const selectedUse = ref(null);
+
+
+
+
+const handleEdit = (users) => {
+  selectedUse.value = { ...users };
+  showEditForm.value = true;
+};
+
+const handleUpdate = () => {
+  const index = courses.value.findIndex(c => c._id === selectedUse.value._id);
+  if (index !== -1) {
+    // TODO: call API to update
+    courses.value[index] = { ...selectedUse.value };
+  }
+  showEditForm.value = false;
+};
 
 const handleDelete = async (userId) => {
   // if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
@@ -111,12 +139,10 @@ const handleDelete = async (userId) => {
             </td>
                <td class="px-6 py-4 whitespace-nowrap">{{ user.status }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <RouterLink 
-                :to="'/users/edit/' + user._id"
-                class="text-indigo-600 hover:text-indigo-900 mr-4"
-              >
-                <i class="ri-edit-2-line"></i>
-              </RouterLink>
+
+
+              <button @click="handleEdit(c)" class="text-yellow-600 mr-3"><i class="ri-edit-2-line"></i></button>
+           
               <button 
                 @click="handleDelete(user._id)"
                 class="text-red-600 hover:text-red-900 cursor-pointer"
@@ -131,7 +157,50 @@ const handleDelete = async (userId) => {
         </tbody>
       </table>
     </div>
+
+
+     <div v-if="showEditForm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+        <h2 class="text-xl font-bold mb-4">Modifier le utilisateurs</h2>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700">NOM</label>
+            <input v-model="selectedUse.name" type="text" class="mt-1 block w-full border rounded-md px-3 py-2">
+          </div>
+
+               <div>
+            <label class="block text-sm font-medium text-gray-700">ROLE</label>
+            <input v-model="selectedUse.role" type="text" class="mt-1 block w-full border rounded-md px-3 py-2">
+          </div>
+          
+            <div>
+            <label class="block text-sm font-medium text-gray-700">EMAIL</label>
+            <input v-model="selectedUse.email" type="text" class="mt-1 block w-full border rounded-md px-3 py-2">
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700">STATUT</label>
+            <select class="mt-1 block w-full border rounded-md px-3 py-2" v-model="selectedUse.status" name="" id="">
+              <option value="actif">Actif</option>
+              <option value="inactif">Inactif</option>
+            </select>
+          
+          </div>
+          
+          <div class="flex justify-end space-x-3 mt-6">
+            <button @click="showEditForm = false" class="px-4 py-2 border rounded-md text-gray-600">
+              Annuler
+            </button>
+            <button @click="handleUpdate" class="px-4 py-2 bg-blue-500 text-white rounded-md">
+              Enregistrer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
 </template>
 
 <style scoped>

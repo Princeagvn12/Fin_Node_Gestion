@@ -74,14 +74,8 @@ const router = createRouter({
           component: () => import('../views/UsersDepartViews.vue'),
         },
         {
-          name: 'courseslist',
-          path: 'courseslist',
-          component: () => import('../components/courses/CourseList.vue'),
-        },
-
-        {
           name: 'users',
-          path: '/users',
+          path: 'users',
           component: () => import('../views/UsersViews.vue'),
 
           children: [
@@ -96,6 +90,7 @@ const router = createRouter({
               path: 'uselist',
               component: () => import('../components/users/UserList.vue'),
             },
+          
             {
               name: 'profile',
               path: 'profile',
@@ -122,12 +117,33 @@ const router = createRouter({
           component: () => import('../views/DepartmentsViews.vue'),
         },
 
+         {
+          name: 'courses',
+          path: 'courses',
+          component: () => import('../views/CoursesViews.vue'),
+
+          children:[
+            {
+              name: 'coursesform',
+              path: 'coursesform',
+              component: () => import('../components/courses/CourseForm.vue'),
+            },
+
+            {
+              name: 'courseslist',
+              path: 'courseslist',
+              component: () => import('../components/courses/CourseList.vue'),
+            },
+          ]
+        },
+
         {
           name: 'hours',
           path: '/hours',
           component: () => import('../views/HoursViews.vue'),
         },
-      ],
+       
+      ],  
     },
   ],
 })

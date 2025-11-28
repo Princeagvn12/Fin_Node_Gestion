@@ -21,3 +21,14 @@
 // export const deleteUser = (id) => {
 //   return axios.delete(`${BASE_URL}/${id}`);
 // };
+
+// import axiosClient from "./axios";
+
+// export const useUsers = () => {
+//     const getAllUsers = async () => (await axiosClient.get('/users')).data
+//     const createUser = async (data) => (await axiosClient.post('/users', data)).data
+//     const removeUser = async (id) => (await axiosClient.put(`/users/${id}`)).data
+// const deleteUser = async (id) => (await axiosClient.delete(`/users/${id}`)).data
+
+//     return { getAllUsers, createUser, removeUser,deleteUser }
+// }

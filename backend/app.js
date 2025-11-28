@@ -17,7 +17,7 @@ const connectDataBase = require('./src/config/db.js')
 const authRoutes = require('./src/routes/auth.routes.js')
 const coursRoutes = require('./src/routes/course.routes.js')
 const hoursRoutes = require('./src/routes/hour.routes.js')
-
+const userRoutes = require('./src/routes/user.routes.js')
 connectDataBase()
 
 // middleware globaux
@@ -28,11 +28,12 @@ app.use(morgan('dev'))
 app.use(helmet())
 
 // routes principales (api)
+
 app.use('/api/auth', authRoutes)
 app.use('/api/departments', departmentRoutes)
 app.use('/api/courses', coursRoutes)
 app.use('/api/hour', hoursRoutes)
-// app.use('/api/user',)
+app.use('/api/user',userRoutes)
 
 app.listen(port, () => {
   console.log(`Server démaré sur le port ${port}🚀🚀`)

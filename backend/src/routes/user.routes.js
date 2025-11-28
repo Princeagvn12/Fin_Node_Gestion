@@ -15,7 +15,7 @@ const express = require("express");
 const router = express.Router();
 
 // On importe le contrôleur qui contient la logique métier
-const { createUser, getUsers, updateUser } = require("../controllers/userController");
+const { createUser, getUsers, updateUser,deleteUser } = require("../controllers/userController");
 
 const getUserByIdMiddleware = require("../middlewares/getUserById.middleware");
 

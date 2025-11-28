@@ -36,7 +36,7 @@ const UserSchema = new mongoose.Schema({
       lowercase: true,
     },
     department:{
-        type: mongoose.Schema.Type.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Departement',
         required: true
     },
@@ -53,7 +53,7 @@ const UserSchema = new mongoose.Schema({
  * Avant de sauvegarder un utilisateur, on vérifie si le mot de passe
  * a été modifié. Si oui, on le hash avec Argon2.
  */
-userSchema.pre("save", async function (next) {
+  UserSchema.pre("save", async function (next) {
     try {
       // Vérifie si le champ mot_de_passe est nouveau ou modifié
       if (this.isModified("password")) {
@@ -70,7 +70,7 @@ userSchema.pre("save", async function (next) {
    * ---------------------------------------------------
    * Compare un mot de passe en clair avec le hash stocké.
    */
-  userSchema.methods.verifyPassword = async function (mot_de_passe) {
+  UserSchema.methods.verifyPassword = async function (mot_de_passe) {
     return await verifyHash(this.password, mot_de_passe);
   };
 
