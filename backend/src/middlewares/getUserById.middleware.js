@@ -1,7 +1,7 @@
 // middlewares/getUserById.js
 
 const mongoose = require("mongoose");
-const User = require("../models/User");
+const User = require("../models/User.model");
 
 /**
  * Middleware pour charger un utilisateur par son ID

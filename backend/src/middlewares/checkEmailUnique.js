@@ -9,7 +9,7 @@
  * Sinon, on passe au middleware/contrôleur suivant.
  */
 
-const User = require("../models/User");
+const User = require("../models/User.model");
 
 const checkEmailUnique = async (req, res, next) => {
   try {

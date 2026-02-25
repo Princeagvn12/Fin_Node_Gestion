@@ -8,8 +8,8 @@ const isAuthenticated = ref(false)
 
 export function useAuth (){
     async function login(payload) {
-        const res = await  axiosClient.post("/auth/login", {... payload}, { withCredentials: true })
-        
+        await axiosClient.post("/auth/login", { ...payload })
+        await fetchUser()
     }
     async function register(payload) {
         const res = await axiosClient.post('/auth/register', { ...payload })
@@ -21,26 +21,28 @@ export function useAuth (){
     
    async function fetchUser() {
         try {
-            const res =  await axiosClient.get('/auth/me', { withCredentials: true })
+            const res = await axiosClient.get('/auth/me')
             user.value = res.data.user
             isAuthenticated.value = true
-            console.log(user.value);
+            return user.value
          } catch {
             try {
-                await axios.post('/auth/refresh', null, { withCredentials: true })
-                const res = await axiosClient.post('/me', { withCredentials: true })
+                await axiosClient.post('/auth/refresh')
+                const res = await axiosClient.get('/auth/me')
                 user.value = res.data.user
                 isAuthenticated.value = true
+                return user.value
             } catch {
                 user.value = null
                isAuthenticated.value = false
+               return null
             }
         }
     }
 
     async function logout() {
         try {
-            const res = await axiosClient.post('/auth/logout', { withCredentials: true })
+            await axiosClient.post('/auth/logout')
             user.value= null
             isAuthenticated.value = false
             router.push('/login')

@@ -79,7 +79,7 @@ const login = async (req, res) => {
     })
 }
 const logout = async (req, res) => {
-    const refreshToken = req.cookies["refresh"];
+    const refreshToken = req.cookies["refreshToken"];
     refreshTKDB = refreshTKDB.filter((token)=> token !== refreshToken);
 
     res.clearCookie("token");
@@ -91,13 +91,13 @@ const logout = async (req, res) => {
 const refresh = async (req, res) => {
     const refreshToken = req.cookies["refreshToken"];
     if(!refreshToken) return res.status(401).json({message: "RefreshToken manquant"})
-    if(!refreshTKDB){
+    if(!refreshTKDB.includes(refreshToken)){
         return res.status(401).json({ message: "RefreshToken invalid"})
     }
     
     try {
         const payload = decodeToken(
-            token,
+            refreshToken,
             process.env.REFRESH_TOKEN_KEY
         );
         const newPayload = {
@@ -108,10 +108,10 @@ const refresh = async (req, res) => {
         };
 
         const newToken = generateToken(newPayload)
-        res.cookie("newToken", newToken, options);
+        res.cookie("token", newToken, options);
         res.status(200).json({
             message: "Connexion refreshtoken !!",
-            newToken,
+            token: newToken,
             refreshToken
         });
 

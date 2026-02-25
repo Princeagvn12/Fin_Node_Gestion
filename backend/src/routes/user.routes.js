@@ -15,11 +15,11 @@ const express = require("express");
 const router = express.Router();
 
 // On importe le contrôleur qui contient la logique métier
-const { createUser, getUsers, updateUser,deleteUser } = require("../controllers/userController");
+const { createUser, getUsers, updateUser,deleteUser } = require("../controllers/user.controller");
 
 const getUserByIdMiddleware = require("../middlewares/getUserById.middleware");
 
-const validateId = require("../middlewares/validateId");
+const validateId = require("../middlewares/validateId.middlewares");
 
 const isAdmin = require("../middlewares/isAdmin.middleware");
 

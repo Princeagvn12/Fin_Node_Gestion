@@ -1,7 +1,6 @@
 import LoginViews from '../views/Auth/LoginViews.vue'
 import RegisterView from '@/views/Auth/RegisterView.vue'
 import DashboardView from '@/views/DashboardView.vue'
-import HomeViews from '@/views/HomeViews.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuth } from '@/composables/auth'
 
@@ -11,7 +10,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeViews,
+      redirect: { name: 'login' },
     },
     {
       path: '/login',
@@ -150,12 +149,17 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const auth = useAuth()
-  await auth.fetchUser()
-  if (to.meta.requiresAuth && !auth.isAuthenticated.value) {
-    next({ name: 'login' })
-  } else {
-    next()
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
+
+  if (requiresAuth) {
+    await auth.fetchUser()
+    if (!auth.isAuthenticated.value) {
+      next({ name: 'login' })
+      return
+    }
   }
+
+  next()
 })
 
 export default router
